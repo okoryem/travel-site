@@ -62,6 +62,11 @@ const probe = (file) => {
   };
 };
 
+// Record where the master came from, but never an absolute path — that leaks
+// local directory structure into a public repo. Parent folder + filename is
+// enough to find it again.
+const relativeMasterPath = (p) => p.split("/").slice(-2).join("/");
+
 const work = mkdtempSync(join(tmpdir(), "add-clip-"));
 try {
   const src = probe(input);
@@ -133,7 +138,7 @@ try {
     poster: { url: `/media/${id}/poster.jpg`, width: web.width, height: web.height },
     ...(story ? { story } : {}),
     tags: [], featured,
-    master: { relPath: input, codec: src.codec },
+    master: { relPath: relativeMasterPath(input), codec: src.codec },
   });
 
   clips.sort((a, b) => b.shotOn.localeCompare(a.shotOn));

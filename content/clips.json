@@ -1,36 +1,35 @@
 [
   {
-    "id": "example-replace-me",
-    "title": "Example — replace with your first clip",
+    "id": "salkantay",
+    "title": "Salkantay",
     "location": {
-      "name": "Hanoi, Vietnam",
-      "countryCode": "VN",
-      "lat": 21.0285,
-      "lon": 105.8542
+      "name": "Salkantay, Peru",
+      "countryCode": "PE",
+      "lat": -13.3833,
+      "lon": -72.5667
     },
-    "shotOn": "2024-03-14",
+    "shotOn": "2026-07-10",
     "publishedAt": "2026-09-07",
-    "durationSec": 47,
+    "durationSec": 87.74,
     "aspectRatio": "16:9",
     "sources": {
       "mp4": {
-        "url": "/media/example-replace-me/clip.mp4",
+        "url": "/media/salkantay/clip.mp4",
         "width": 1920,
         "height": 1080,
-        "bitrateKbps": 8000
+        "bitrateKbps": 4996
       }
     },
     "poster": {
-      "url": "/media/example-replace-me/poster.jpg",
+      "url": "/media/salkantay/poster.jpg",
       "width": 1920,
       "height": 1080
     },
-    "story": "This entry exists so the build passes before the first real clip is added. Static export requires at least one page per dynamic route. Replace it with your first graded export — the media paths 404 until something is uploaded.",
-    "tags": ["example"],
-    "featured": false,
+    "tags": [],
+    "featured": true,
     "master": {
-      "relPath": "2024/vietnam/DJI_0042.MOV",
-      "colorProfile": "D-Log"
+      "relPath": "Final Edits/Salkantay_Final1.mp4",
+      "codec": "hevc"
     }
   }
 ]
