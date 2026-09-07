@@ -362,6 +362,38 @@ npm run build    # production build → out/ when output: 'export'
 npm run lint     # eslint
 ```
 
+### Environment variables — the file names matter
+
+`NEXT_PUBLIC_` prefixed variables are **inlined into the client bundle at build
+time**, not read at runtime. Whatever value is present during `next build` is
+baked into the exported HTML permanently.
+
+Which makes the filename load order critical:
+
+| File | Loaded in |
+|---|---|
+| `.env` | always |
+| `.env.local` | **always** (dev *and* production builds) |
+| `.env.development.local` | `next dev` only |
+| `.env.production.local` | `next build` only |
+
+**Gotcha that bit me.** Media is stored as relative `/media/*` paths that only
+resolve through CloudFront, so on localhost every image was broken. The fix was
+a media-base variable pointing dev at the CDN — but putting it in `.env.local`
+meant `next build` picked it up too, hardcoding the CloudFront domain into 34
+exported files. It still worked, so nothing failed visibly, but it defeated the
+whole point of storing relative paths and would break if the distribution were
+ever recreated.
+
+`.env.local` sounds like "my local machine". It means "not committed to git".
+Dev-only belongs in `.env.development.local`.
+
+Worth checking after any build that touches env vars:
+
+```bash
+grep -rl "your-domain.com" out/ | wc -l   # expect 0
+```
+
 ### Where to check when unsure
 
 Next ships its own documentation inside the installed package:
