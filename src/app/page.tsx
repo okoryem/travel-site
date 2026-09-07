@@ -5,7 +5,7 @@ export default async function Home() {
   const clips = await getClips();
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+    <main className="mx-auto max-w-6xl px-6 pt-28 pb-20 sm:pt-32">
       <header className="max-w-2xl">
         <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
           Travels

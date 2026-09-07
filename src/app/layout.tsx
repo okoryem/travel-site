@@ -23,7 +23,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Fixed so it floats above the full-bleed map. Blurred pills keep the
+            links legible over whatever is behind them. */}
+        <nav className="fixed top-6 left-6 z-30 flex gap-1.5 text-[13px]">
+          {[
+            ["Films", "/"],
+            ["Map", "/map/"],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              className="rounded-full border border-black/10 bg-white/70 px-3 py-1.5 opacity-70 backdrop-blur transition hover:opacity-100 dark:border-white/15 dark:bg-black/50"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+        {children}
+      </body>
     </html>
   );
 }

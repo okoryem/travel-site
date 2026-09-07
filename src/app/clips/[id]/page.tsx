@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getClips, getClip, formatDuration } from "@/lib/clips";
+import { getClips, getClip, formatDuration, mediaUrl } from "@/lib/clips";
 
 // Static export has no server to handle an unknown URL, so every clip page must
 // be enumerated at build time. See LEARNING.md → Next.js → Dynamic routes.
@@ -31,7 +31,7 @@ export default async function ClipPage({ params }: PageProps<"/clips/[id]">) {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-16">
+    <main className="mx-auto max-w-4xl px-6 pt-28 pb-20">
       <div
         className="overflow-hidden rounded-lg bg-black"
         style={{ aspectRatio: clip.aspectRatio.replace(":", " / ") }}
@@ -43,11 +43,11 @@ export default async function ClipPage({ params }: PageProps<"/clips/[id]">) {
           // Without this every page view downloads the entire clip — egress you
           // pay for whether or not anyone watches.
           preload="metadata"
-          poster={clip.poster.url}
+          poster={mediaUrl(clip.poster.url)}
           className="h-full w-full"
         >
           {clip.sources.mp4 && (
-            <source src={clip.sources.mp4.url} type="video/mp4" />
+            <source src={mediaUrl(clip.sources.mp4.url)} type="video/mp4" />
           )}
           Your browser does not support the video tag.
         </video>

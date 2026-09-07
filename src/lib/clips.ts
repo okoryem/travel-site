@@ -137,3 +137,18 @@ export function formatDuration(seconds: number): string {
   const s = Math.round(seconds % 60);
   return `${m}:${String(s).padStart(2, "0")}`;
 }
+
+/**
+ * Media lives in a separate S3 bucket served under /media/* by the same
+ * CloudFront distribution, so in production the stored relative path is already
+ * correct and this is a no-op.
+ *
+ * Locally there is no CloudFront, so set NEXT_PUBLIC_MEDIA_BASE in .env.local to
+ * the distribution URL and dev pulls real media from the CDN. Keeping the base
+ * out of the manifest means no domain is baked into content.
+ */
+export const MEDIA_BASE = process.env.NEXT_PUBLIC_MEDIA_BASE ?? "";
+
+export function mediaUrl(path: string): string {
+  return `${MEDIA_BASE}${path}`;
+}

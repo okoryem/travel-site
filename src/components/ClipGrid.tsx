@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatDuration, type Clip } from "@/lib/clips";
+import { formatDuration, mediaUrl, type Clip } from "@/lib/clips";
 
 /**
  * Handles mixed orientations — landscape and vertical clips sit in the same
@@ -18,7 +18,7 @@ export function ClipGrid({ clips }: { clips: Clip[] }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={clip.poster.url}
+                src={mediaUrl(clip.poster.url)}
                 alt=""
                 width={clip.poster.width}
                 height={clip.poster.height}
