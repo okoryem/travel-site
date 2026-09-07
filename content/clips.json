@@ -1,5 +1,104 @@
 [
   {
+    "id": "paracas",
+    "title": "Paracas",
+    "location": {
+      "name": "Paracas, Peru",
+      "countryCode": "PE",
+      "lat": -13.8344,
+      "lon": -76.2497
+    },
+    "shotOn": "2026-09-07",
+    "publishedAt": "2026-09-07",
+    "durationSec": 34.07,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/paracas/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 3060
+      }
+    },
+    "poster": {
+      "url": "/media/paracas/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/ParacasDrive.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "pululahua",
+    "title": "Pululahua",
+    "location": {
+      "name": "Pululahua, Ecuador",
+      "countryCode": "EC",
+      "lat": 0.035,
+      "lon": -78.498
+    },
+    "shotOn": "2026-09-07",
+    "publishedAt": "2026-09-07",
+    "durationSec": 5.95,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/pululahua/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 1980
+      }
+    },
+    "poster": {
+      "url": "/media/pululahua/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/Pululahua_Quito.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "banos",
+    "title": "Baños",
+    "location": {
+      "name": "Baños, Ecuador",
+      "countryCode": "EC",
+      "lat": -1.3967,
+      "lon": -78.4247
+    },
+    "shotOn": "2026-09-07",
+    "publishedAt": "2026-09-07",
+    "durationSec": 20.46,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/banos/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 7436
+      }
+    },
+    "poster": {
+      "url": "/media/banos/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/WaterFallBanos.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
     "id": "huacachina",
     "title": "Huacachina",
     "location": {
