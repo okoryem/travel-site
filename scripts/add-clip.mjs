@@ -11,7 +11,7 @@
  * content/clips.json. Nothing is guessed — every number comes from ffprobe.
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -35,11 +35,11 @@ const locationName = flag("location");
 const country = flag("country");
 const lat = Number(flag("lat"));
 const lon = Number(flag("lon"));
-const shotOn = flag("shot-on");
+const shotOnFlag = flag("shot-on");
 const story = flag("story", undefined);
 const featured = has("featured");
 
-for (const [k, v] of Object.entries({ id, title, location: locationName, country, "shot-on": shotOn })) {
+for (const [k, v] of Object.entries({ id, title, location: locationName, country })) {
   if (!v) { console.error(`missing --${k}`); process.exit(1); }
 }
 if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) {
@@ -66,6 +66,27 @@ const probe = (file) => {
 // local directory structure into a public repo. Parent folder + filename is
 // enough to find it again.
 const relativeMasterPath = (p) => p.split("/").slice(-2).join("/");
+
+/**
+ * Fall back to the date recorded in the file when --shot-on isn't given.
+ *
+ * This is the *export* date, not when the footage was shot — a real, bounded
+ * value rather than an invented one, but still a placeholder. Flagged loudly so
+ * it gets corrected rather than quietly becoming wrong history.
+ */
+const fileDate = (file) => {
+  try {
+    const t = run("ffprobe", ["-v", "error", "-show_entries",
+      "format_tags=creation_time", "-of", "default=nw=1:nk=1", file]).trim();
+    if (t) return t.slice(0, 10);
+  } catch {}
+  return new Date(statSync(file).mtime).toISOString().slice(0, 10);
+};
+
+const shotOn = shotOnFlag ?? fileDate(input);
+if (!shotOnFlag) {
+  console.warn(`⚠ no --shot-on given; using the file's export date ${shotOn} as a placeholder`);
+}
 
 const work = mkdtempSync(join(tmpdir(), "add-clip-"));
 try {

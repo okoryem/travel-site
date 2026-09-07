@@ -1,5 +1,38 @@
 [
   {
+    "id": "huacachina",
+    "title": "Huacachina",
+    "location": {
+      "name": "Huacachina, Peru",
+      "countryCode": "PE",
+      "lat": -14.0875,
+      "lon": -75.7625
+    },
+    "shotOn": "2026-07-21",
+    "publishedAt": "2026-09-07",
+    "durationSec": 48.36,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/huacachina/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 2292
+      }
+    },
+    "poster": {
+      "url": "/media/huacachina/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "Final Edits/huaca2.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
     "id": "salkantay",
     "title": "Salkantay",
     "location": {
@@ -29,6 +62,39 @@
     "featured": true,
     "master": {
       "relPath": "Final Edits/Salkantay_Final1.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "acatenango",
+    "title": "Acatenango",
+    "location": {
+      "name": "Acatenango, Guatemala",
+      "countryCode": "GT",
+      "lat": 14.5008,
+      "lon": -90.8761
+    },
+    "shotOn": "2026-04-04",
+    "publishedAt": "2026-09-07",
+    "durationSec": 27.11,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/acatenango/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 5133
+      }
+    },
+    "poster": {
+      "url": "/media/acatenango/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "Final Edits/NewAca.MP4",
       "codec": "hevc"
     }
   }
