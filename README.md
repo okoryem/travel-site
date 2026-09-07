@@ -58,6 +58,7 @@ npx cdk deploy       # apply
 
 | Doc | What's in it |
 |---|---|
+| [`LEARNING.md`](LEARNING.md) | **Learning log** — how everything works and how to recreate it from scratch |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Architecture Decision Records — every significant choice, the options rejected, and why |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Target architecture, cost breakdown, cost guardrails |
 | [`docs/CONTENT-MODEL.md`](docs/CONTENT-MODEL.md) | The `Clip` schema — the load-bearing design decision |
