@@ -332,6 +332,19 @@ Reading through a `lib/clips` module rather than importing the JSON directly
 keeps schema validation in one place (see `docs/CONTENT-MODEL.md`) and means
 swapping the data source later touches one file instead of every page.
 
+**Gotcha:** with `output: 'export'`, `generateStaticParams` returning an empty
+array **fails the build**:
+
+```
+Page "/clips/[id]" returned an empty array from "generateStaticParams()".
+With "output: export", at least one route must be generated.
+```
+
+It's a reasonable rule — a dynamic route that generates nothing is dead code in
+a static site — but it means the route cannot be committed before the data
+exists. Either add one template entry, or don't create the route until you have
+real content.
+
 **Two Next 16 details that differ from older tutorials:**
 
 1. **`params` is a Promise** and must be awaited. It became async in Next 15;
