@@ -208,6 +208,226 @@ export AWS_PROFILE=travel-site
 aws s3 ls
 ```
 
+## Next.js: the App Router and static export
+
+### File-based routing
+
+Routes come from the folder structure under `src/app/`. A folder becomes a URL
+segment; special filenames give that segment behavior.
+
+```
+src/app/
+  layout.tsx          → wraps everything (required at the root)
+  page.tsx            → /
+  not-found.tsx       → 404 page
+  clips/
+    page.tsx          → /clips
+    [id]/
+      page.tsx        → /clips/hanoi, /clips/tokyo, ...
+```
+
+| File | Purpose |
+|---|---|
+| `page.tsx` | makes the segment a real, visitable route |
+| `layout.tsx` | shared wrapper; **preserves state** across navigation within it |
+| `loading.tsx` | shown while the segment loads |
+| `not-found.tsx` | 404 UI |
+| `error.tsx` | error boundary (must be a Client Component) |
+
+A folder without a `page.tsx` is not a route — it just organizes files.
+
+### Server Components are the default
+
+This is the biggest shift if your last React was hooks-everywhere. **Every
+component in `app/` runs on the server by default.** In a static export,
+"the server" is your machine at build time.
+
+Server Components can be `async` and fetch data directly. They ship **no
+JavaScript** to the browser:
+
+```tsx
+// No 'use client' — this runs at build time only.
+export default async function Page() {
+  const clips = await getClips();          // runs during `next build`
+  return <ul>{clips.map(c => <li key={c.id}>{c.title}</li>)}</ul>;
+}
+```
+
+To use state, effects, or event handlers, opt into the client explicitly:
+
+```tsx
+'use client';
+import { useState } from 'react';
+
+export default function LookPicker() {
+  const [lut, setLut] = useState('neutral');
+  return <button onClick={() => setLut('kodak')}>Kodak</button>;
+}
+```
+
+**The practical rule:** keep pages as Server Components, and push `'use client'`
+as far down the tree as possible — onto the specific interactive widget, not the
+page that contains it. `'use client'` marks a boundary: everything imported
+below it also becomes client code.
+
+### Static export
+
+```ts
+// next.config.ts
+const nextConfig: NextConfig = {
+  output: "export",              // emit plain HTML/CSS/JS into out/
+  images: { unoptimized: true }, // no server, so no on-demand image optimizer
+  trailingSlash: true,           // /clips/hanoi/index.html, not /clips/hanoi.html
+};
+```
+
+`next build` writes a fully static `out/` folder. Server Components still work —
+they simply run at build time instead of per-request, which is ordinary
+static-site generation.
+
+**`trailingSlash: true` is not cosmetic here.** It pairs with the CloudFront
+Function described in New Material — directory-style paths are what S3 and
+CloudFront resolve predictably. Change one without the other and routing breaks.
+
+### What static export gives up
+
+Anything needing a running server:
+
+| Unsupported | |
+|---|---|
+| Route Handlers using `Request` | no API endpoints |
+| Server Actions | no server-side mutations |
+| `cookies()`, Draft Mode | no per-request state |
+| `redirects`, `rewrites`, `headers` in config | CloudFront's job instead |
+| ISR (Incremental Static Regeneration) | rebuild and redeploy instead |
+| `next/image` default loader | hence `unoptimized: true` |
+| Dynamic routes **without** `generateStaticParams` | every path must be known at build |
+
+Using one of these fails the build rather than failing silently — which is the
+good outcome.
+
+### Dynamic routes must enumerate themselves
+
+Since there's no server to handle an unknown URL, every page has to exist at
+build time. `generateStaticParams` supplies the list:
+
+```tsx
+// src/app/clips/[id]/page.tsx
+import { getClips, getClip } from "@/lib/clips";
+
+// Runs at build time. Next.js generates one HTML file per entry.
+export async function generateStaticParams() {
+  const clips = await getClips();
+  return clips.map((clip) => ({ id: clip.id }));
+}
+
+export default async function ClipPage({ params }: PageProps<"/clips/[id]">) {
+  const { id } = await params;          // params is a Promise — await it
+  const clip = await getClip(id);
+  return <h1>{clip.title}</h1>;
+}
+```
+
+Reading through a `lib/clips` module rather than importing the JSON directly
+keeps schema validation in one place (see `docs/CONTENT-MODEL.md`) and means
+swapping the data source later touches one file instead of every page.
+
+**Two Next 16 details that differ from older tutorials:**
+
+1. **`params` is a Promise** and must be awaited. It became async in Next 15;
+   older code destructures it directly and will not work.
+2. **`PageProps<"/clips/[id]">` and `LayoutProps<"/">` are generated types.**
+   Next writes them into `.next/types` from your actual route structure, so the
+   route string is type-checked — a typo in the path is a compile error. You
+   don't import them; they're global.
+
+### Commands
+
+```bash
+npm run dev      # dev server with hot reload
+npm run build    # production build → out/ when output: 'export'
+npm run lint     # eslint
+```
+
+### Where to check when unsure
+
+Next ships its own documentation inside the installed package:
+
+```bash
+ls node_modules/next/dist/docs/01-app/
+```
+
+Worth using. Next 16 changed enough that older blog posts — and recalled
+knowledge — are frequently wrong.
+
+---
+
+## Tailwind CSS v4
+
+v4 is a substantial break from v3. If you remember Tailwind, you remember v3,
+and the first thing you'll look for no longer exists.
+
+### There is no `tailwind.config.js`
+
+Configuration moved **into CSS**. The whole setup is one import plus a theme block:
+
+```css
+/* src/app/globals.css */
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+}
+```
+
+Anything declared in `@theme` becomes utility classes automatically. Define
+`--color-background` and you get `bg-background`, `text-background`,
+`border-background` for free — no config, no `extend` block.
+
+### What changed from v3
+
+| v3 | v4 |
+|---|---|
+| `tailwind.config.js` | `@theme` inside your CSS |
+| `@tailwind base; @tailwind components; @tailwind utilities;` | one `@import "tailwindcss";` |
+| `content: [...]` paths to scan | automatic detection |
+| `theme.extend.colors` | CSS custom properties in `@theme` |
+| `postcss.config` with `tailwindcss` + `autoprefixer` | just `@tailwindcss/postcss` |
+
+### The build wiring
+
+```js
+// postcss.config.mjs
+const config = { plugins: { "@tailwindcss/postcss": {} } };
+export default config;
+```
+
+That's it. No `autoprefixer` — v4 handles prefixing itself.
+
+### Why this is better
+
+Design tokens are now real CSS custom properties, so they're readable from
+JavaScript, overridable per-scope, and work naturally with `@media` queries:
+
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+```
+
+Dark mode becomes a variable swap rather than a `dark:` prefix on every
+utility class.
+
 ---
 
 # New Material
