@@ -67,3 +67,46 @@ preview/render parity, not cost.
 
 The 500GB of masters currently exist on one external drive with no backup. Not a
 site problem, but it is a single point of failure for irreplaceable footage.
+
+---
+
+## Deployment
+
+Live at the CloudFront URL in the stack's `SiteUrl` output.
+
+```bash
+# One-time per account/region
+cd infra && npx cdk bootstrap
+
+# Infrastructure changes
+cd infra && npx cdk diff && npx cdk deploy
+
+# Site content
+npm run deploy          # build → s3 sync → CloudFront invalidation
+```
+
+`scripts/deploy.sh` reads the bucket name and distribution ID from the
+CloudFormation stack outputs rather than hardcoding them, so it cannot drift
+out of sync with the infrastructure and carries no account-specific values in
+version control.
+
+### Credentials
+
+Authentication is IAM Identity Center, profile `travel-site`. Credentials are
+short-lived and expire; refresh with:
+
+```bash
+aws sso login --sso-session travel-site
+```
+
+There is deliberately no `~/.aws/credentials` file — no long-lived access key
+exists to leak. See the cost guardrails above.
+
+### Verified at first deploy
+
+| Check | Result |
+|---|---|
+| `GET /` | 200, served from CloudFront edge |
+| Directory paths (`/foo/`) | 200 — CloudFront Function rewrite works |
+| Unknown paths | 404 via `404.html` |
+| Direct S3 URL | 403 — bucket reachable only through the CDN |

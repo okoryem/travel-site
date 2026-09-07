@@ -3,6 +3,8 @@
 A personal travel film gallery — 4K footage shot around the world, graded in
 DaVinci Resolve, served as a static site from AWS.
 
+**Live:** https://d682bft2ks5jy.cloudfront.net
+
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 ·
 AWS CDK · S3 · CloudFront
 
@@ -39,6 +41,7 @@ docs/             Architecture decision records
 npm install
 npm run dev          # http://localhost:3000
 npm run build        # static export into out/
+npm run deploy       # build, sync to S3, invalidate CloudFront
 ```
 
 Infrastructure:
