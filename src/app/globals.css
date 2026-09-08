@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Map hatching. Defined per theme rather than once: a yellow that reads on
+     white is muddy on black, and a blue that reads on black glows on white. */
+  --tier-birth: #cc3a3a;
+  --tier-before: #2f5fcc;
+  --tier-after: #b07d05;
 }
 
 @theme inline {
@@ -16,6 +22,10 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --tier-birth: #ff6b6b;
+    --tier-before: #7aa2ff;
+    --tier-after: #f0c04a;
   }
 }
 

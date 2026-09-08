@@ -6,6 +6,15 @@ import { geoNaturalEarth1, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import worldTopo from "world-atlas/countries-110m.json";
 import { mediaUrl, type Clip } from "@/lib/clips";
+import {
+  COUNTRY_TIERS,
+  POINT_COUNTRIES,
+  TERRITORY_EXCLUSIONS,
+  TIER_LABEL,
+  TIER_ORDER,
+  tierCounts,
+  type Tier,
+} from "@/lib/countries";
 
 /* Marker sizing. Everything below scales together — CLUSTER_DIST must stay
    larger than CARD_W or expanded stacks overlap each other. */
@@ -65,13 +74,78 @@ export function WorldMap({
     return () => ro.disconnect();
   }, []);
 
-  const { land, pathOf, project } = useMemo(() => {
+  /* Country shapes, split so that excluded territories keep their outline but
+     lose their hatch fill. Static — geometry doesn't depend on viewport size,
+     so this runs once rather than on every resize. */
+  const shapes = useMemo(() => {
     const topo = worldTopo as unknown as Parameters<typeof feature>[0];
     const fc = feature(
       topo,
       (worldTopo as never as { objects: { countries: unknown } }).objects.countries as never,
     ) as unknown as GeoJSON.FeatureCollection;
 
+    const inBbox = (
+      ring: GeoJSON.Position[],
+      [w, s2, e, n]: [number, number, number, number],
+    ) => ring.every(([lon, lat]) => lon >= w && lon <= e && lat >= s2 && lat <= n);
+
+    const out: { key: string; name: string; feature: GeoJSON.Feature; tier?: Tier }[] = [];
+
+    for (const f of fc.features) {
+      const id = String(f.id);
+      const tier = COUNTRY_TIERS[id] as Tier | undefined;
+      const exclusions = TERRITORY_EXCLUSIONS[id];
+
+      const name = String(f.properties?.name ?? "");
+
+      if (!tier || !exclusions || f.geometry.type !== "MultiPolygon") {
+        out.push({ key: id || `f${out.length}`, name, feature: f, tier });
+        continue;
+      }
+
+      const keep: GeoJSON.Position[][][] = [];
+      const drop: GeoJSON.Position[][][] = [];
+      for (const poly of f.geometry.coordinates) {
+        const excluded = exclusions.some((x) => inBbox(poly[0], x.bbox));
+        (excluded ? drop : keep).push(poly);
+      }
+
+      /* Fail loudly rather than silently doing the wrong thing: a bbox that
+         matches nothing leaves the territory hatched, and one that matches
+         everything strips the country entirely. Both are invisible bugs. */
+      if (process.env.NODE_ENV !== "production") {
+        if (drop.length === 0) {
+          console.warn(
+            `[map] exclusion for country ${id} matched no sub-polygons — ` +
+              `${exclusions.map((x) => x.name).join(", ")} will stay hatched.`,
+          );
+        } else if (keep.length === 0) {
+          console.warn(`[map] exclusion for country ${id} matched every sub-polygon.`);
+        }
+      }
+
+      if (keep.length) {
+        out.push({
+          key: `${id}-main`,
+          name,
+          feature: { ...f, geometry: { type: "MultiPolygon", coordinates: keep } },
+          tier,
+        });
+      }
+      if (drop.length) {
+        // Still drawn, just unhatched — the land shouldn't vanish.
+        out.push({
+          key: `${id}-excluded`,
+          // Name the territory itself rather than inheriting the parent's.
+          name: exclusions.find((x) => inBbox(drop[0][0], x.bbox))?.name ?? name,
+          feature: { ...f, geometry: { type: "MultiPolygon", coordinates: drop } },
+        });
+      }
+    }
+    return out;
+  }, []);
+
+  const { pathOf, project } = useMemo(() => {
     const projection = geoNaturalEarth1().fitExtent(
       [
         [PAD, PAD],
@@ -79,16 +153,21 @@ export function WorldMap({
       ],
       { type: "Sphere" } as never,
     );
-
     return {
-      land: fc,
       pathOf: geoPath(projection),
       project: (lon: number, lat: number) => projection([lon, lat]) ?? [0, 0],
     };
   }, [size.w, size.h]);
 
-  /* Open framed on the clips rather than on an empty Pacific, but zoomed out
-     enough to keep surrounding geography for context. */
+  /* Project each shape to an SVG path once per viewport size. The map group is
+     transformed wholesale, so these strings don't change with pan or zoom —
+     recomputing 178 of them per render made every frame more expensive than it
+     needed to be. */
+  const paths = useMemo(
+    () => shapes.map((sh) => ({ ...sh, d: pathOf(sh.feature as never) ?? undefined })),
+    [shapes, pathOf],
+  );
+
   /* Where the intro starts: the projection is fitted to the viewport at scale
      1, so the identity transform is exactly the whole world. */
   const worldView = useMemo<View>(() => ({ k: MIN_K, x: 0, y: 0 }), []);
@@ -210,6 +289,9 @@ export function WorldMap({
   }, [measured, startIntro, worldView, stopIntro]);
 
   const [panning, setPanning] = useState(false);
+  const [hover, setHover] = useState<{ key: string; name: string; x: number; y: number } | null>(
+    null,
+  );
   const [openId, setOpenId] = useState<string | null>(null);
   const [hoverId, setHoverId] = useState<string | null>(null);
 
@@ -290,6 +372,8 @@ export function WorldMap({
   // Suppress the click that ends a drag, so panning never opens a clip.
   const clickedWithoutDragging = () => !drag.current?.moved;
 
+  const counts = useMemo(() => tierCounts(), []);
+
   const cardH = (clip: Clip) => Math.round((CARD_W * clip.poster.height) / clip.poster.width);
 
   return (
@@ -313,6 +397,31 @@ export function WorldMap({
         onClick={() => setOpenId(null)}
       >
         <defs>
+          {/* Diagonal hatching for visited countries. The tile is counter-scaled
+              by 1/k because the pattern is painted into the transformed map
+              group — without it the stripes would grow with zoom until they
+              read as solid bands rather than hatching. */}
+          {TIER_ORDER.map((tier) => (
+            <pattern
+              key={tier}
+              id={`hatch-${tier}`}
+              width={8}
+              height={8}
+              patternUnits="userSpaceOnUse"
+              patternTransform={`rotate(45) scale(${1 / view.k})`}
+            >
+              <rect width={8} height={8} fill={`var(--tier-${tier})`} opacity={0.16} />
+              <line
+                x1={0}
+                y1={0}
+                x2={0}
+                y2={8}
+                stroke={`var(--tier-${tier})`}
+                strokeWidth={2.6}
+                opacity={0.85}
+              />
+            </pattern>
+          ))}
           {clips.map((c) => (
             <clipPath key={c.id} id={`card-${c.id}`}>
               <rect width={CARD_W} height={cardH(c)} rx={CARD_RX} />
@@ -323,16 +432,60 @@ export function WorldMap({
         {/* Map transforms wholesale; markers are placed in screen space so their
             size stays constant regardless of zoom. */}
         <g transform={`translate(${view.x},${view.y}) scale(${view.k})`}>
-          {land.features.map((f, i) => (
+          {paths.map(({ key, name, d, tier }) => (
             <path
-              key={i}
-              d={pathOf(f as never) ?? undefined}
-              className="fill-current stroke-current opacity-[0.13]"
+              key={key}
+              d={d}
+              fill={tier ? `url(#hatch-${tier})` : "currentColor"}
+              fillOpacity={tier ? 1 : hover?.key === key ? 0.16 : 0.07}
+              className="stroke-current"
+              strokeOpacity={hover?.key === key ? 0.55 : tier ? 0.42 : 0.13}
               strokeWidth={0.5}
               vectorEffect="non-scaling-stroke"
+              onMouseEnter={(e) => {
+                if (drag.current) return;
+                const { x, y } = toLocal(e.clientX, e.clientY);
+                setHover({ key, name, x, y });
+              }}
+              onMouseMove={(e) => {
+                if (drag.current) return;
+                const { x, y } = toLocal(e.clientX, e.clientY);
+                setHover((h) => (h?.key === key ? { ...h, x, y } : { key, name, x, y }));
+              }}
+              onMouseLeave={() => setHover((h) => (h?.key === key ? null : h))}
             />
           ))}
         </g>
+
+        {/* Countries the 110m geometry drops entirely — see lib/countries.ts.
+            Drawn in screen space so they stay visible at any zoom. */}
+        {POINT_COUNTRIES.map((c) => {
+          const [px, py] = project(c.lon, c.lat);
+          const sx = px * view.k + view.x;
+          const sy = py * view.k + view.y;
+          return (
+            <g
+              key={c.name}
+              onMouseEnter={(e) => {
+                if (drag.current) return;
+                const { x, y } = toLocal(e.clientX, e.clientY);
+                setHover({ key: c.name, name: c.name, x, y });
+              }}
+              onMouseLeave={() => setHover((h) => (h?.key === c.name ? null : h))}
+            >
+              <circle cx={sx} cy={sy} r={9} fill="transparent" />
+              <circle cx={sx} cy={sy} r={5} fill={`var(--tier-${c.tier})`} opacity={0.22} />
+              <circle
+                cx={sx}
+                cy={sy}
+                r={2.6}
+                fill={`var(--tier-${c.tier})`}
+                stroke={`var(--tier-${c.tier})`}
+                strokeWidth={0.8}
+              />
+            </g>
+          );
+        })}
 
         {clusters.map((cluster) => {
           const isOpen = openId === cluster.id;
@@ -449,10 +602,73 @@ export function WorldMap({
 
       </svg>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
-        <p className="text-[11px] opacity-40">
-          Drag to pan · scroll to zoom · click a stack to fan it out
-        </p>
+      {/* Country name on hover. The viewBox is 1:1 with CSS pixels, so the SVG
+          coordinates from the pointer can position an HTML element directly —
+          no conversion needed. Flips to the left near the right edge. */}
+      {hover && !panning && (
+        <div
+          className="pointer-events-none absolute z-20 rounded-md border border-black/10 bg-white/90 px-2.5 py-1.5 text-[12px] whitespace-nowrap shadow-sm backdrop-blur dark:border-white/15 dark:bg-black/80"
+          style={{
+            left: hover.x,
+            top: hover.y,
+            transform: `translate(${
+              hover.x > size.w - 180 ? "calc(-100% - 14px)" : "14px"
+            }, calc(-100% - 10px))`,
+          }}
+        >
+          {hover.name}
+        </div>
+      )}
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
+        <div className="flex flex-col gap-2">
+          {/* Key. Its swatches carry their own patterns at a fixed scale — the
+              map's are counter-scaled by zoom, so reusing them here would make
+              the swatches resize as you zoom. */}
+          <div className="rounded-lg border border-black/10 bg-white/70 px-3 py-2.5 backdrop-blur dark:border-white/15 dark:bg-black/50">
+            <ul className="space-y-1.5">
+              {TIER_ORDER.map((tier) => (
+                <li key={tier} className="flex items-center gap-2 text-[11px] whitespace-nowrap">
+                  <svg width={16} height={16} className="shrink-0" aria-hidden="true">
+                    <defs>
+                      <pattern
+                        id={`key-${tier}`}
+                        width={6}
+                        height={6}
+                        patternUnits="userSpaceOnUse"
+                        patternTransform="rotate(45)"
+                      >
+                        <rect width={6} height={6} fill={`var(--tier-${tier})`} opacity={0.16} />
+                        <line
+                          x1={0}
+                          y1={0}
+                          x2={0}
+                          y2={6}
+                          stroke={`var(--tier-${tier})`}
+                          strokeWidth={2}
+                          opacity={0.85}
+                        />
+                      </pattern>
+                    </defs>
+                    <rect
+                      width={16}
+                      height={16}
+                      rx={3}
+                      fill={`url(#key-${tier})`}
+                      className="stroke-current"
+                      strokeOpacity={0.22}
+                    />
+                  </svg>
+                  <span className="opacity-70">{TIER_LABEL[tier]}</span>
+                  <span className="ml-auto pl-2 tabular-nums opacity-40">{counts[tier]}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="text-[11px] opacity-40">
+            Drag to pan · scroll to zoom · click a stack to fan it out
+          </p>
+        </div>
         <div className="pointer-events-auto flex gap-1">
           {([["+", 1.4], ["−", 1 / 1.4]] as const).map(([label, f]) => (
             <button
