@@ -92,14 +92,19 @@ export function WorldMap({
     const out: { key: string; name: string; feature: GeoJSON.Feature; tier?: Tier }[] = [];
 
     for (const f of fc.features) {
-      const id = String(f.id);
-      const tier = COUNTRY_TIERS[id] as Tier | undefined;
-      const exclusions = TERRITORY_EXCLUSIONS[id];
-
+      /* Three features carry no ISO code — N. Cyprus, Somaliland and Kosovo are
+         disputed, so none was assigned one. String(undefined) yields the
+         *string* "undefined", which is truthy and defeats a `||` fallback, so
+         check for null explicitly and key those by name instead. */
+      const id = f.id == null ? null : String(f.id);
       const name = String(f.properties?.name ?? "");
+      const baseKey = id ?? `unmapped-${name || out.length}`;
+
+      const tier = (id ? COUNTRY_TIERS[id] : undefined) as Tier | undefined;
+      const exclusions = id ? TERRITORY_EXCLUSIONS[id] : undefined;
 
       if (!tier || !exclusions || f.geometry.type !== "MultiPolygon") {
-        out.push({ key: id || `f${out.length}`, name, feature: f, tier });
+        out.push({ key: baseKey, name, feature: f, tier });
         continue;
       }
 
@@ -126,7 +131,7 @@ export function WorldMap({
 
       if (keep.length) {
         out.push({
-          key: `${id}-main`,
+          key: `${baseKey}-main`,
           name,
           feature: { ...f, geometry: { type: "MultiPolygon", coordinates: keep } },
           tier,
@@ -135,13 +140,20 @@ export function WorldMap({
       if (drop.length) {
         // Still drawn, just unhatched — the land shouldn't vanish.
         out.push({
-          key: `${id}-excluded`,
+          key: `${baseKey}-excluded`,
           // Name the territory itself rather than inheriting the parent's.
           name: exclusions.find((x) => inBbox(drop[0][0], x.bbox))?.name ?? name,
           feature: { ...f, geometry: { type: "MultiPolygon", coordinates: drop } },
         });
       }
     }
+
+    if (process.env.NODE_ENV !== "production") {
+      const seen = new Set<string>();
+      const dupes = out.map((o) => o.key).filter((k) => seen.size === seen.add(k).size);
+      if (dupes.length) console.warn("[map] duplicate shape keys:", [...new Set(dupes)]);
+    }
+
     return out;
   }, []);
 
@@ -289,6 +301,10 @@ export function WorldMap({
   }, [measured, startIntro, worldView, stopIntro]);
 
   const [panning, setPanning] = useState(false);
+  /* Drives both halves of the toggle: the key slides away and the hatching
+     comes off the map together, so the legend never describes colours that
+     aren't there. */
+  const [showTiers, setShowTiers] = useState(true);
   const [hover, setHover] = useState<{ key: string; name: string; x: number; y: number } | null>(
     null,
   );
@@ -436,10 +452,14 @@ export function WorldMap({
             <path
               key={key}
               d={d}
-              fill={tier ? `url(#hatch-${tier})` : "currentColor"}
-              fillOpacity={tier ? 1 : hover?.key === key ? 0.16 : 0.07}
+              fill={tier && showTiers ? `url(#hatch-${tier})` : "currentColor"}
+              fillOpacity={
+                tier && showTiers ? 1 : hover?.key === key ? 0.16 : 0.07
+              }
               className="stroke-current"
-              strokeOpacity={hover?.key === key ? 0.55 : tier ? 0.42 : 0.13}
+              strokeOpacity={
+                hover?.key === key ? 0.55 : tier && showTiers ? 0.42 : 0.13
+              }
               strokeWidth={0.5}
               vectorEffect="non-scaling-stroke"
               onMouseEnter={(e) => {
@@ -474,13 +494,21 @@ export function WorldMap({
               onMouseLeave={() => setHover((h) => (h?.key === c.name ? null : h))}
             >
               <circle cx={sx} cy={sy} r={9} fill="transparent" />
-              <circle cx={sx} cy={sy} r={5} fill={`var(--tier-${c.tier})`} opacity={0.22} />
+              <circle
+                cx={sx}
+                cy={sy}
+                r={5}
+                fill={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
+                opacity={showTiers ? 0.22 : 0.1}
+              />
               <circle
                 cx={sx}
                 cy={sy}
                 r={2.6}
-                fill={`var(--tier-${c.tier})`}
-                stroke={`var(--tier-${c.tier})`}
+                fill={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
+                fillOpacity={showTiers ? 1 : 0.35}
+                stroke={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
+                strokeOpacity={showTiers ? 1 : 0.35}
                 strokeWidth={0.8}
               />
             </g>
@@ -620,55 +648,76 @@ export function WorldMap({
         </div>
       )}
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-        <div className="flex flex-col gap-2">
-          {/* Key. Its swatches carry their own patterns at a fixed scale — the
-              map's are counter-scaled by zoom, so reusing them here would make
-              the swatches resize as you zoom. */}
-          <div className="rounded-lg border border-black/10 bg-white/70 px-3 py-2.5 backdrop-blur dark:border-white/15 dark:bg-black/50">
-            <ul className="space-y-1.5">
-              {TIER_ORDER.map((tier) => (
-                <li key={tier} className="flex items-center gap-2 text-[11px] whitespace-nowrap">
-                  <svg width={16} height={16} className="shrink-0" aria-hidden="true">
-                    <defs>
-                      <pattern
-                        id={`key-${tier}`}
-                        width={6}
-                        height={6}
-                        patternUnits="userSpaceOnUse"
-                        patternTransform="rotate(45)"
-                      >
-                        <rect width={6} height={6} fill={`var(--tier-${tier})`} opacity={0.16} />
-                        <line
-                          x1={0}
-                          y1={0}
-                          x2={0}
-                          y2={6}
-                          stroke={`var(--tier-${tier})`}
-                          strokeWidth={2}
-                          opacity={0.85}
-                        />
-                      </pattern>
-                    </defs>
-                    <rect
-                      width={16}
-                      height={16}
-                      rx={3}
-                      fill={`url(#key-${tier})`}
-                      className="stroke-current"
-                      strokeOpacity={0.22}
-                    />
-                  </svg>
-                  <span className="opacity-70">{TIER_LABEL[tier]}</span>
-                  <span className="ml-auto pl-2 tabular-nums opacity-40">{counts[tier]}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className="text-[11px] opacity-40">
-            Drag to pan · scroll to zoom · click a stack to fan it out
-          </p>
+      {/* Key. Slides out to the left when collapsed, leaving only its tab.
+          Translating by -100% plus the tab's own width parks the panel fully
+          off-screen without needing to measure it. */}
+      <div
+        className="pointer-events-auto absolute bottom-12 left-0 z-20 flex items-stretch transition-transform duration-300 ease-out"
+        style={{
+          transform: showTiers ? "translateX(1.25rem)" : "translateX(calc(-100% + 1.5rem))",
+        }}
+      >
+        {/* Swatches carry their own patterns at a fixed scale — the map's are
+            counter-scaled by zoom, so reusing them would resize these. */}
+        <div
+          className="rounded-l-lg border border-r-0 border-black/10 bg-white/70 px-3 py-2.5 backdrop-blur dark:border-white/15 dark:bg-black/50"
+          aria-hidden={!showTiers}
+        >
+          <ul className="space-y-1.5">
+            {TIER_ORDER.map((tier) => (
+              <li key={tier} className="flex items-center gap-2 text-[11px] whitespace-nowrap">
+                <svg width={16} height={16} className="shrink-0" aria-hidden="true">
+                  <defs>
+                    <pattern
+                      id={`key-${tier}`}
+                      width={6}
+                      height={6}
+                      patternUnits="userSpaceOnUse"
+                      patternTransform="rotate(45)"
+                    >
+                      <rect width={6} height={6} fill={`var(--tier-${tier})`} opacity={0.16} />
+                      <line
+                        x1={0}
+                        y1={0}
+                        x2={0}
+                        y2={6}
+                        stroke={`var(--tier-${tier})`}
+                        strokeWidth={2}
+                        opacity={0.85}
+                      />
+                    </pattern>
+                  </defs>
+                  <rect
+                    width={16}
+                    height={16}
+                    rx={3}
+                    fill={`url(#key-${tier})`}
+                    className="stroke-current"
+                    strokeOpacity={0.22}
+                  />
+                </svg>
+                <span className="opacity-70">{TIER_LABEL[tier]}</span>
+                <span className="ml-auto pl-2 tabular-nums opacity-40">{counts[tier]}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <button
+          onClick={() => setShowTiers((v) => !v)}
+          aria-expanded={showTiers}
+          aria-label={showTiers ? "Hide travel colours" : "Show travel colours"}
+          title={showTiers ? "Hide travel colours" : "Show travel colours"}
+          className="flex w-6 shrink-0 items-center justify-center rounded-r-lg border border-black/10 bg-white/70 text-[13px] leading-none opacity-60 backdrop-blur transition hover:bg-white hover:opacity-100 focus-visible:ring-2 focus-visible:outline-none dark:border-white/15 dark:bg-black/50 dark:hover:bg-black/70"
+        >
+          {showTiers ? "\u2039" : "\u203a"}
+        </button>
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
+        <p className="text-[11px] opacity-40">
+          Drag to pan · scroll to zoom · click a stack to fan it out
+        </p>
         <div className="pointer-events-auto flex gap-1">
           {([["+", 1.4], ["−", 1 / 1.4]] as const).map(([label, f]) => (
             <button

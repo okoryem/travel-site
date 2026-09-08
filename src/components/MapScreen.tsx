@@ -61,8 +61,10 @@ export function MapScreen({ clips }: { clips: Clip[] }) {
               {WELCOME.heading}
             </h1>
             <div className="mt-6 space-y-4 text-[15px] leading-relaxed opacity-70">
-              {WELCOME.body.map((p) => (
-                <p key={p}>{p}</p>
+              {WELCOME.body.map((paragraph, i) => (
+                // Index rather than text: the copy is a fixed, ordered list, and
+                // two identical paragraphs would otherwise collide.
+                <p key={i}>{paragraph}</p>
               ))}
             </div>
             <button
