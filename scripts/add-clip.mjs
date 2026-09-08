@@ -15,6 +15,11 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync, statSync } from "node
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+/* Default the AWS context so the script works without the caller exporting it,
+   while still honouring an explicit override. */
+process.env.AWS_PROFILE ??= "travel-site";
+process.env.AWS_REGION ??= "us-east-1";
+
 const args = process.argv.slice(2);
 const input = args.find((a) => !a.startsWith("--"));
 const flag = (name, fallback = undefined) => {
@@ -88,6 +93,27 @@ if (!shotOnFlag) {
   console.warn(`⚠ no --shot-on given; using the file's export date ${shotOn} as a placeholder`);
 }
 
+/* Resolve the destination bucket BEFORE doing any encoding. Credentials are the
+   cheapest precondition to verify and the likeliest to fail — SSO tokens expire
+   — so validating them last means a failure throws away minutes of transcoding. */
+let bucket;
+try {
+  const stack = process.env.STACK ?? "TravelSiteStack";
+  const outputs = JSON.parse(run("aws", ["cloudformation", "describe-stacks",
+    "--stack-name", stack, "--query", "Stacks[0].Outputs", "--output", "json"]));
+  bucket = outputs.find((o) => o.OutputKey === "MediaBucketName")?.OutputValue;
+  if (!bucket) throw new Error(`stack ${stack} has no MediaBucketName output`);
+} catch (err) {
+  const msg = String(err.stderr ?? err.message ?? err);
+  if (/sso|token|expired|credential/i.test(msg)) {
+    console.error("\nAWS credentials are not valid. Refresh them with:\n");
+    console.error("  aws sso login --sso-session travel-site\n");
+  } else {
+    console.error(`\nCould not read stack outputs:\n${msg}`);
+  }
+  process.exit(1);
+}
+
 const work = mkdtempSync(join(tmpdir(), "add-clip-"));
 try {
   const src = probe(input);
@@ -121,11 +147,6 @@ try {
     "-frames:v", "1", "-q:v", "3", posterPath]);
 
   // ---- Upload --------------------------------------------------------------
-  const stack = process.env.STACK ?? "TravelSiteStack";
-  const outputs = JSON.parse(run("aws", ["cloudformation", "describe-stacks",
-    "--stack-name", stack, "--query", "Stacks[0].Outputs", "--output", "json"]));
-  const bucket = outputs.find((o) => o.OutputKey === "MediaBucketName").OutputValue;
-
   console.log(`uploading to s3://${bucket}/media/${id}/`);
   for (const [file, key, type] of [
     [webPath, "clip.mp4", "video/mp4"],

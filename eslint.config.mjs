@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // CDK emits bundled asset JS here; it is generated, not ours.
+    "infra/cdk.out/**",
   ]),
 ]);
 

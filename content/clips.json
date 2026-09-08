@@ -1,5 +1,203 @@
 [
   {
+    "id": "arequipa",
+    "title": "Arequipa",
+    "location": {
+      "name": "Arequipa, Peru",
+      "countryCode": "PE",
+      "lat": -16.409,
+      "lon": -71.5375
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 12.09,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/arequipa/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 2607
+      }
+    },
+    "poster": {
+      "url": "/media/arequipa/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/ArequipaSaltLakes.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "nevado-mateo",
+    "title": "Nevado Mateo",
+    "location": {
+      "name": "Huaraz, Peru",
+      "countryCode": "PE",
+      "lat": -9.5278,
+      "lon": -77.5278
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 9.45,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/nevado-mateo/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 7032
+      }
+    },
+    "poster": {
+      "url": "/media/nevado-mateo/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/NevadoMateoHuaraz.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "banos",
+    "title": "Baños",
+    "location": {
+      "name": "Baños, Ecuador",
+      "countryCode": "EC",
+      "lat": -1.3967,
+      "lon": -78.4247
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 20.46,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/banos/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 7818
+      }
+    },
+    "poster": {
+      "url": "/media/banos/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/WaterfallBanos.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "banos-rafting",
+    "title": "Rafting, Baños",
+    "location": {
+      "name": "Baños, Ecuador",
+      "countryCode": "EC",
+      "lat": -1.3967,
+      "lon": -78.4247
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 35.92,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/banos-rafting/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8368
+      }
+    },
+    "poster": {
+      "url": "/media/banos-rafting/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/RaftingBanos.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "cotopaxi",
+    "title": "Cotopaxi",
+    "location": {
+      "name": "Cotopaxi, Ecuador",
+      "countryCode": "EC",
+      "lat": -0.68,
+      "lon": -78.4378
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 25.6,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/cotopaxi/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8412
+      }
+    },
+    "poster": {
+      "url": "/media/cotopaxi/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/Cotopaxi.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
+    "id": "cuenca",
+    "title": "Cuenca",
+    "location": {
+      "name": "Cuenca, Ecuador",
+      "countryCode": "EC",
+      "lat": -2.9001,
+      "lon": -79.0059
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 35.73,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/cuenca/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8353
+      }
+    },
+    "poster": {
+      "url": "/media/cuenca/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/Cuenca.mp4",
+      "codec": "hevc"
+    }
+  },
+  {
     "id": "paracas",
     "title": "Paracas",
     "location": {
@@ -9,7 +207,7 @@
       "lon": -76.2497
     },
     "shotOn": "2026-09-07",
-    "publishedAt": "2026-09-07",
+    "publishedAt": "2026-09-08",
     "durationSec": 34.07,
     "aspectRatio": "16:9",
     "sources": {
@@ -42,7 +240,7 @@
       "lon": -78.498
     },
     "shotOn": "2026-09-07",
-    "publishedAt": "2026-09-07",
+    "publishedAt": "2026-09-08",
     "durationSec": 5.95,
     "aspectRatio": "16:9",
     "sources": {
@@ -66,39 +264,6 @@
     }
   },
   {
-    "id": "banos",
-    "title": "Baños",
-    "location": {
-      "name": "Baños, Ecuador",
-      "countryCode": "EC",
-      "lat": -1.3967,
-      "lon": -78.4247
-    },
-    "shotOn": "2026-09-07",
-    "publishedAt": "2026-09-07",
-    "durationSec": 20.46,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/banos/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 7436
-      }
-    },
-    "poster": {
-      "url": "/media/banos/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/WaterFallBanos.mp4",
-      "codec": "hevc"
-    }
-  },
-  {
     "id": "huacachina",
     "title": "Huacachina",
     "location": {
@@ -108,7 +273,7 @@
       "lon": -75.7625
     },
     "shotOn": "2026-07-21",
-    "publishedAt": "2026-09-07",
+    "publishedAt": "2026-09-08",
     "durationSec": 48.36,
     "aspectRatio": "16:9",
     "sources": {
@@ -127,7 +292,7 @@
     "tags": [],
     "featured": false,
     "master": {
-      "relPath": "Final Edits/huaca2.mp4",
+      "relPath": "website/huaca2.mp4",
       "codec": "hevc"
     }
   },
@@ -141,7 +306,7 @@
       "lon": -72.5667
     },
     "shotOn": "2026-07-10",
-    "publishedAt": "2026-09-07",
+    "publishedAt": "2026-09-08",
     "durationSec": 87.74,
     "aspectRatio": "16:9",
     "sources": {
@@ -149,7 +314,7 @@
         "url": "/media/salkantay/clip.mp4",
         "width": 1920,
         "height": 1080,
-        "bitrateKbps": 4996
+        "bitrateKbps": 5002
       }
     },
     "poster": {
@@ -158,9 +323,9 @@
       "height": 1080
     },
     "tags": [],
-    "featured": true,
+    "featured": false,
     "master": {
-      "relPath": "Final Edits/Salkantay_Final1.mp4",
+      "relPath": "website/Salkantay_Final1.mp4",
       "codec": "hevc"
     }
   },
@@ -174,7 +339,7 @@
       "lon": -90.8761
     },
     "shotOn": "2026-04-04",
-    "publishedAt": "2026-09-07",
+    "publishedAt": "2026-09-08",
     "durationSec": 27.11,
     "aspectRatio": "16:9",
     "sources": {
@@ -182,7 +347,7 @@
         "url": "/media/acatenango/clip.mp4",
         "width": 1920,
         "height": 1080,
-        "bitrateKbps": 5133
+        "bitrateKbps": 5131
       }
     },
     "poster": {
@@ -193,7 +358,7 @@
     "tags": [],
     "featured": false,
     "master": {
-      "relPath": "Final Edits/NewAca.MP4",
+      "relPath": "website/NewAca.MP4",
       "codec": "hevc"
     }
   }
