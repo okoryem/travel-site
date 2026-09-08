@@ -28,8 +28,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             links legible over whatever is behind them. */}
         <nav className="fixed top-6 left-6 z-30 flex gap-1.5 text-[13px]">
           {[
-            ["Films", "/"],
-            ["Map", "/map/"],
+            ["Map", "/"],
+            ["Films", "/films/"],
           ].map(([label, href]) => (
             <a
               key={href}

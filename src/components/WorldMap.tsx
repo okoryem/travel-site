@@ -30,7 +30,15 @@ type View = { k: number; x: number; y: number };
 type Placed = { clip: Clip; sx: number; sy: number };
 type Cluster = { id: string; sx: number; sy: number; clips: Placed[] };
 
-export function WorldMap({ clips }: { clips: Clip[] }) {
+export function WorldMap({
+  clips,
+  startIntro = true,
+}: {
+  clips: Clip[];
+  /* Held false while the welcome dialog is open: the map is drawn straight
+     away, but the zoom-in waits so it isn't wasted behind the overlay. */
+  startIntro?: boolean;
+}) {
   const router = useRouter();
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -42,7 +50,6 @@ export function WorldMap({ clips }: { clips: Clip[] }) {
      any other aspect ratio, which is the opposite of seamless. */
   const [size, setSize] = useState<Size>({ w: 1440, h: 900 });
   const [measured, setMeasured] = useState(false);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -156,9 +163,8 @@ export function WorldMap({ clips }: { clips: Clip[] }) {
      real dimensions. Resetting the guard in cleanup keeps it working under React
      StrictMode, which mounts effects twice in development. */
   useEffect(() => {
-    if (!measured || didFit.current) return;
+    if (!measured || !startIntro || didFit.current) return;
     didFit.current = true;
-    setReady(true);
 
     const from = worldView;
     const to = targetRef.current;
@@ -201,7 +207,7 @@ export function WorldMap({ clips }: { clips: Clip[] }) {
       stopIntro();
       didFit.current = false;
     };
-  }, [measured, worldView, stopIntro]);
+  }, [measured, startIntro, worldView, stopIntro]);
 
   const [panning, setPanning] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -296,7 +302,7 @@ export function WorldMap({ clips }: { clips: Clip[] }) {
         className="h-full w-full touch-none select-none"
         style={{
           cursor: panning ? "grabbing" : "grab",
-          opacity: ready ? 1 : 0,
+          opacity: measured ? 1 : 0,
           transition: "opacity 400ms ease",
         }}
         onWheel={onWheel}
