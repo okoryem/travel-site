@@ -19,6 +19,11 @@ import {
 /* Marker sizing. Everything below scales together — CLUSTER_DIST must stay
    larger than CARD_W or expanded stacks overlap each other. */
 const CARD_W = 114; // video card width
+/* Every card is 16:9 whatever the clip's orientation. A vertical clip in its
+   native ratio would be ~200px tall here, towering over the others and throwing
+   off the stack geometry; its poster is centre-cropped to fit instead. The clip
+   page still plays it full-height. */
+const CARD_H = Math.round((CARD_W * 9) / 16);
 const STEM = 66; // how far the line rises above the location dot
 const CLUSTER_DIST = 144; // stack anything closer together than this
 const DOT_R = 4.5;
@@ -334,11 +339,24 @@ export function WorldMap({
           taken.add(j);
         }
       }
+      /* Anchor the marker on an actual clip, not the group's centroid. Averaging
+         distant members lands the pin where nothing happened — Grenada and
+         Tayrona average out to open ocean, ~600km from either. The member
+         nearest the centroid is the most central real place. */
+      const cx = group.reduce((sum, g) => sum + g.sx, 0) / group.length;
+      const cy = group.reduce((sum, g) => sum + g.sy, 0) / group.length;
+      const anchor = group.reduce(
+        (best, g) =>
+          Math.hypot(g.sx - cx, g.sy - cy) < Math.hypot(best.sx - cx, best.sy - cy) ? g : best,
+        group[0],
+      );
+
       out.push({
         id: group.map((g) => g.clip.id).sort().join("+"),
-        sx: group.reduce((s, g) => s + g.sx, 0) / group.length,
-        sy: group.reduce((s, g) => s + g.sy, 0) / group.length,
-        clips: group,
+        sx: anchor.sx,
+        sy: anchor.sy,
+        // Anchor first, so the front card is the clip the pin actually sits on.
+        clips: [anchor, ...group.filter((g) => g !== anchor)],
       });
     }
     return out.sort((a, b) => a.sy - b.sy);
@@ -390,7 +408,6 @@ export function WorldMap({
 
   const counts = useMemo(() => tierCounts(), []);
 
-  const cardH = (clip: Clip) => Math.round((CARD_W * clip.poster.height) / clip.poster.width);
 
   return (
     <div ref={wrapRef} className="absolute inset-0 overflow-hidden">
@@ -440,7 +457,7 @@ export function WorldMap({
           ))}
           {clips.map((c) => (
             <clipPath key={c.id} id={`card-${c.id}`}>
-              <rect width={CARD_W} height={cardH(c)} rx={CARD_RX} />
+              <rect width={CARD_W} height={CARD_H} rx={CARD_RX} />
             </clipPath>
           ))}
         </defs>
@@ -530,7 +547,7 @@ export function WorldMap({
           const spread = CARD_W + 12;
           const perRow = Math.max(1, Math.floor((size.w - PAD * 2) / spread));
           const rowGap = 15;
-          const maxH = Math.max(...shown.map((p) => cardH(p.clip)));
+          const maxH = CARD_H;
 
           const seatOf = (i: number) => {
             if (!isOpen) return { x: cluster.sx, y: topY };
@@ -563,7 +580,7 @@ export function WorldMap({
               />
 
               {shown.map((p, i) => {
-                const h = cardH(p.clip);
+                const h = CARD_H;
                 const seat = seatOf(i);
                 return (
                   <g

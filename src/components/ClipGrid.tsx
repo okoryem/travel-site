@@ -12,10 +12,11 @@ export function ClipGrid({ clips }: { clips: Clip[] }) {
       {clips.map((clip) => (
         <li key={clip.id}>
           <Link href={`/clips/${clip.id}/`} className="group block">
-            <div
-              className="relative overflow-hidden rounded-lg bg-black/5 dark:bg-white/[0.06]"
-              style={{ aspectRatio: clip.aspectRatio.replace(":", " / ") }}
-            >
+            {/* Fixed 16:9 whatever the clip's orientation — a vertical clip in
+                its native ratio would be twice the height of its neighbours and
+                break the row. Posters are centre-cropped; the clip page plays
+                them at full height. */}
+            <div className="relative aspect-video overflow-hidden rounded-lg bg-black/5 dark:bg-white/[0.06]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={mediaUrl(clip.poster.url)}
