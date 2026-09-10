@@ -1,5 +1,203 @@
 [
   {
+    "id": "grenada-waterfall",
+    "title": "Waterfall, Grenada",
+    "location": {
+      "name": "Grenada",
+      "countryCode": "GD",
+      "lat": 12.1165,
+      "lon": -61.679
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 14.97,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/grenada-waterfall/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8554
+      }
+    },
+    "poster": {
+      "url": "/media/grenada-waterfall/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/GrenadaWaterfall.mp4",
+      "codec": "h264"
+    }
+  },
+  {
+    "id": "cocora-jeep",
+    "title": "Jeep, Cocora Valley",
+    "location": {
+      "name": "Cocora Valley, Colombia",
+      "countryCode": "CO",
+      "lat": 4.6378,
+      "lon": -75.4875
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 23.98,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/cocora-jeep/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8461
+      }
+    },
+    "poster": {
+      "url": "/media/cocora-jeep/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/CocoraValleyJeep.mp4",
+      "codec": "h264"
+    }
+  },
+  {
+    "id": "tayrona",
+    "title": "Tayrona",
+    "location": {
+      "name": "Tayrona, Colombia",
+      "countryCode": "CO",
+      "lat": 11.3116,
+      "lon": -74.0742
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 15.23,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/tayrona/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8525
+      }
+    },
+    "poster": {
+      "url": "/media/tayrona/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/Tayrona.mp4",
+      "codec": "h264"
+    }
+  },
+  {
+    "id": "medellin-paragliding",
+    "title": "Paragliding, Medellín",
+    "location": {
+      "name": "Medellín, Colombia",
+      "countryCode": "CO",
+      "lat": 6.2442,
+      "lon": -75.5812
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 23.96,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/medellin-paragliding/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8378
+      }
+    },
+    "poster": {
+      "url": "/media/medellin-paragliding/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/MedellinParagliding.mp4",
+      "codec": "h264"
+    }
+  },
+  {
+    "id": "medellin-clasico",
+    "title": "Clásico, Medellín",
+    "location": {
+      "name": "Medellín, Colombia",
+      "countryCode": "CO",
+      "lat": 6.2442,
+      "lon": -75.5812
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 44.37,
+    "aspectRatio": "9:16",
+    "sources": {
+      "mp4": {
+        "url": "/media/medellin-clasico/clip.mp4",
+        "width": 1080,
+        "height": 1920,
+        "bitrateKbps": 8092
+      }
+    },
+    "poster": {
+      "url": "/media/medellin-clasico/poster.jpg",
+      "width": 1080,
+      "height": 1920
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/MedellinClasico.mp4",
+      "codec": "h264"
+    }
+  },
+  {
+    "id": "cocora-horse",
+    "title": "Horseback, Cocora Valley",
+    "location": {
+      "name": "Cocora Valley, Colombia",
+      "countryCode": "CO",
+      "lat": 4.6378,
+      "lon": -75.4875
+    },
+    "shotOn": "2026-09-09",
+    "publishedAt": "2026-09-10",
+    "durationSec": 24.43,
+    "aspectRatio": "16:9",
+    "sources": {
+      "mp4": {
+        "url": "/media/cocora-horse/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8412
+      }
+    },
+    "poster": {
+      "url": "/media/cocora-horse/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "tags": [],
+    "featured": false,
+    "master": {
+      "relPath": "website/CocoraValleyHorse.mp4",
+      "codec": "h264"
+    }
+  },
+  {
     "id": "arequipa",
     "title": "Arequipa",
     "location": {

@@ -152,8 +152,26 @@ try {
     [webPath, "clip.mp4", "video/mp4"],
     [posterPath, "poster.jpg", "image/jpeg"],
   ]) {
-    run("aws", ["s3", "cp", file, `s3://${bucket}/media/${id}/${key}`,
+    const s3key = `media/${id}/${key}`;
+    run("aws", ["s3", "cp", file, `s3://${bucket}/${s3key}`,
       "--content-type", type, "--cache-control", "public,max-age=31536000,immutable"]);
+
+    /* Confirm the object actually landed. `aws s3 cp` has been seen to exit 0
+       without the object appearing, which writes a manifest entry pointing at a
+       404 — a silent failure that only surfaces when someone presses play. */
+    const local = statSync(file).size;
+    let remote;
+    try {
+      remote = JSON.parse(
+        run("aws", ["s3api", "head-object", "--bucket", bucket, "--key", s3key]),
+      ).ContentLength;
+    } catch {
+      throw new Error(`${key}: upload reported success but the object is not in S3`);
+    }
+    if (remote !== local) {
+      throw new Error(`${key}: uploaded ${remote} bytes, expected ${local}`);
+    }
+    console.log(`  ✓ ${key} verified in S3 (${(remote / 1e6).toFixed(1)}MB)`);
   }
 
   // ---- Manifest ------------------------------------------------------------

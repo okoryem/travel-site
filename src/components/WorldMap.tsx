@@ -493,23 +493,26 @@ export function WorldMap({
               }}
               onMouseLeave={() => setHover((h) => (h?.key === c.name ? null : h))}
             >
-              <circle cx={sx} cy={sy} r={9} fill="transparent" />
+              {/* Drawn as a ring rather than a dot. A clip marker can sit at the
+                  same coordinates — Grenada has one — and a filled dot would be
+                  hidden underneath it, losing the tier colour entirely. A ring
+                  reads around whatever is on top of it. */}
+              <circle cx={sx} cy={sy} r={11} fill="transparent" />
               <circle
                 cx={sx}
                 cy={sy}
-                r={5}
+                r={8}
                 fill={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
-                opacity={showTiers ? 0.22 : 0.1}
+                opacity={showTiers ? 0.14 : 0.07}
               />
               <circle
                 cx={sx}
                 cy={sy}
-                r={2.6}
-                fill={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
-                fillOpacity={showTiers ? 1 : 0.35}
+                r={7}
+                fill="none"
                 stroke={showTiers ? `var(--tier-${c.tier})` : "currentColor"}
-                strokeOpacity={showTiers ? 1 : 0.35}
-                strokeWidth={0.8}
+                strokeOpacity={showTiers ? 0.9 : 0.3}
+                strokeWidth={2}
               />
             </g>
           );
