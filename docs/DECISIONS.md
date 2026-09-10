@@ -146,3 +146,54 @@ Recorded here so the docs match the lockfile:
 Next 16 ships an `AGENTS.md` warning that its APIs may differ from an LLM's
 training data, and vendors its own docs under `node_modules/next/dist/docs/`.
 Check there before trusting recalled Next.js API details.
+
+---
+
+## ADR-007 — Postgres on Neon as the content backend
+**Status:** Accepted · 2026-09-10
+
+**Context.** The project is partly a résumé artefact (ADR-003), and REST API
+and SQL were both missing from it. `content/clips.json` had already been shaped
+like a database row (ADR-005) precisely so this move would be additive.
+
+**Decision.** Clips move from a JSON file into PostgreSQL hosted on Neon, behind
+a REST API on API Gateway + Lambda. `next build` reads the API instead of the
+file. The site stays a static export.
+
+```
+Postgres ──> API Gateway + Lambda ──┬──> next build (static site, unchanged)
+                                     └──> authenticated admin UI
+```
+
+**Why the site stays static.** Visitors never touch the database — they hit S3
+and CloudFront as they do now. Only builds and the admin UI query Postgres,
+which is a few dozen queries a day rather than one per page view. That keeps
+hosting free, keeps the site fast, and keeps the free tier a rounding error
+rather than a risk.
+
+**Why relational rather than DynamoDB.** The access patterns are relational:
+group by country, tags many-to-many, trips with date ranges, "countries ordered
+by first visit". DynamoDB has no joins and no aggregation, so each of those
+becomes a maintained counter, an extra index, or a scan. Its strengths — massive
+scale, high write throughput, fixed access patterns — are all irrelevant to 17
+rows. It would also have meant NoSQL on the résumé rather than the SQL that
+prompted this.
+
+**Why Neon rather than RDS.** RDS is ~$12–15/month always-on, against a stack
+that currently costs about nothing and a $10 budget alarm. Neon's free tier
+covers this workload with room to spare. The API, Lambda, IAM and auth all still
+live in the AWS account; only the database host is external.
+
+**Rejected: Aurora DSQL.** AWS-native and pay-per-request, but newer, thinner
+documentation, and the pricing needed verifying before committing.
+
+**Consequences.**
+- Region is `us-east-2` (Ohio) — Neon would not offer `us-east-1` on this plan.
+  Cross-region latency is ~10–15ms per query, which is immaterial when queries
+  happen at build time.
+- Lambda holding TCP connections to Postgres exhausts the connection limit. Use
+  Neon's HTTP serverless driver, which opens none.
+- `DATABASE_URL` must never carry a `NEXT_PUBLIC_` prefix; that would inline the
+  credential into the browser bundle.
+- If the free tier ever changes, `pg_dump` to RDS is an afternoon. Portability
+  is a large part of why Postgres was chosen over a proprietary store.
