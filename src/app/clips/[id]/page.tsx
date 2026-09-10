@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getClips, getClip, formatDuration, mediaUrl } from "@/lib/clips";
+import { ClipAudio } from "@/components/ClipAudio";
 
 // Static export has no server to handle an unknown URL, so every clip page must
 // be enumerated at build time. See LEARNING.md → Next.js → Dynamic routes.
@@ -65,6 +66,8 @@ export default async function ClipPage({ params }: PageProps<"/clips/[id]">) {
         </time>{" "}
         · {formatDuration(clip.durationSec)}
       </p>
+
+      {clip.audio && <ClipAudio audio={clip.audio} />}
 
       {clip.story && (
         <div className="mt-8 max-w-prose leading-relaxed whitespace-pre-line">

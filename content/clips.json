@@ -30,6 +30,11 @@
     "master": {
       "relPath": "website/GrenadaWaterfall.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/grenada-waterfall/narration.m4a",
+      "durationSec": 11.91,
+      "transcript": "Waterfall, Grenada. Filmed in Grenada. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -63,6 +68,11 @@
     "master": {
       "relPath": "website/CocoraValleyJeep.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/cocora-jeep/narration.m4a",
+      "durationSec": 13.04,
+      "transcript": "Jeep, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -96,6 +106,11 @@
     "master": {
       "relPath": "website/Tayrona.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/tayrona/narration.m4a",
+      "durationSec": 11.8,
+      "transcript": "Tayrona. Filmed in Tayrona, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -129,6 +144,11 @@
     "master": {
       "relPath": "website/MedellinParagliding.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/medellin-paragliding/narration.m4a",
+      "durationSec": 13.05,
+      "transcript": "Paragliding, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -162,6 +182,11 @@
     "master": {
       "relPath": "website/MedellinClasico.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/medellin-clasico/narration.m4a",
+      "durationSec": 12.98,
+      "transcript": "Clásico, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -195,6 +220,11 @@
     "master": {
       "relPath": "website/CocoraValleyHorse.mp4",
       "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/cocora-horse/narration.m4a",
+      "durationSec": 13.36,
+      "transcript": "Horseback, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -228,6 +258,11 @@
     "master": {
       "relPath": "website/ArequipaSaltLakes.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/arequipa/narration.m4a",
+      "durationSec": 12,
+      "transcript": "Arequipa. Filmed in Arequipa, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -261,6 +296,11 @@
     "master": {
       "relPath": "website/NevadoMateoHuaraz.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/nevado-mateo/narration.m4a",
+      "durationSec": 12.24,
+      "transcript": "Nevado Mateo. Filmed in Huaraz, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -294,6 +334,11 @@
     "master": {
       "relPath": "website/WaterfallBanos.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/banos/narration.m4a",
+      "durationSec": 11.7,
+      "transcript": "Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -327,6 +372,11 @@
     "master": {
       "relPath": "website/RaftingBanos.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/banos-rafting/narration.m4a",
+      "durationSec": 12.5,
+      "transcript": "Rafting, Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -360,6 +410,11 @@
     "master": {
       "relPath": "website/Cotopaxi.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/cotopaxi/narration.m4a",
+      "durationSec": 12.45,
+      "transcript": "Cotopaxi. Filmed in Cotopaxi, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -393,6 +448,11 @@
     "master": {
       "relPath": "website/Cuenca.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/cuenca/narration.m4a",
+      "durationSec": 11.7,
+      "transcript": "Cuenca. Filmed in Cuenca, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -426,6 +486,11 @@
     "master": {
       "relPath": "website/ParacasDrive.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/paracas/narration.m4a",
+      "durationSec": 11.89,
+      "transcript": "Paracas. Filmed in Paracas, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -459,6 +524,11 @@
     "master": {
       "relPath": "website/Pululahua_Quito.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/pululahua/narration.m4a",
+      "durationSec": 12.26,
+      "transcript": "Pululahua. Filmed in Pululahua, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -492,6 +562,11 @@
     "master": {
       "relPath": "website/huaca2.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/huacachina/narration.m4a",
+      "durationSec": 12.12,
+      "transcript": "Huacachina. Filmed in Huacachina, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -525,6 +600,11 @@
     "master": {
       "relPath": "website/Salkantay_Final1.mp4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/salkantay/narration.m4a",
+      "durationSec": 12.09,
+      "transcript": "Salkantay. Filmed in Salkantay, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   },
   {
@@ -558,6 +638,11 @@
     "master": {
       "relPath": "website/NewAca.MP4",
       "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/acatenango/narration.m4a",
+      "durationSec": 12.56,
+      "transcript": "Acatenango. Filmed in Acatenango, Guatemala. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
     }
   }
 ]

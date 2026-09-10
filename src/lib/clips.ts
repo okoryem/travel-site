@@ -67,6 +67,18 @@ export const ClipSchema = z.object({
     blurDataURL: z.string().optional(),
   }),
 
+  /* Spoken commentary that plays under the film, with the transcript it was
+     read from. Optional: clips without narration simply don't render the
+     player. Plain text for now — timed cues (WebVTT) are the natural upgrade
+     if the transcript ever needs to follow along with playback. */
+  audio: z
+    .object({
+      url: MediaPath,
+      durationSec: z.number().positive(),
+      transcript: z.string().min(1),
+    })
+    .optional(),
+
   story: z.string().optional(),
   tags: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
