@@ -152,3 +152,35 @@ export const MEDIA_BASE = process.env.NEXT_PUBLIC_MEDIA_BASE ?? "";
 export function mediaUrl(path: string): string {
   return `${MEDIA_BASE}${path}`;
 }
+
+/** "PE" -> "Peru". Falls back to the code if the runtime has no display name. */
+export function countryName(code: string): string {
+  const upper = code.toUpperCase();
+  try {
+    const name = new Intl.DisplayNames(["en"], { type: "region" }).of(upper);
+    if (name && name !== upper) return name;
+  } catch {
+    // Intl.DisplayNames unavailable — fall through.
+  }
+  return upper;
+}
+
+export type CountryGroup = { code: string; name: string; clips: Clip[] };
+
+/**
+ * Clips grouped into one row per country, fullest rows first so the page opens
+ * with something to scroll rather than a row of one.
+ */
+export async function getClipsByCountry(): Promise<CountryGroup[]> {
+  const all = await getClips();
+  const byCode = new Map<string, Clip[]>();
+  for (const clip of all) {
+    const code = clip.location.countryCode;
+    const bucket = byCode.get(code);
+    if (bucket) bucket.push(clip);
+    else byCode.set(code, [clip]);
+  }
+  return [...byCode.entries()]
+    .map(([code, clips]) => ({ code, name: countryName(code), clips }))
+    .sort((a, b) => b.clips.length - a.clips.length || a.name.localeCompare(b.name));
+}

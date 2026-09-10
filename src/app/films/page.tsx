@@ -1,21 +1,22 @@
-import { getClips } from "@/lib/clips";
-import { ClipGrid } from "@/components/ClipGrid";
+import { getClipsByCountry, getClips } from "@/lib/clips";
+import { FilmHero } from "@/components/FilmHero";
+import { FilmRow } from "@/components/FilmRow";
 
 export const metadata = { title: "Films" };
 
 export default async function FilmsPage() {
+  const groups = await getClipsByCountry();
   const clips = await getClips();
-  const countries = new Set(clips.map((c) => c.location.countryCode));
 
   return (
-    <main className="mx-auto max-w-6xl px-6 pt-28 pb-20">
-      <h1 className="text-2xl font-medium tracking-tight">Films</h1>
-      <p className="mt-2 text-sm opacity-55">
-        {clips.length} {clips.length === 1 ? "film" : "films"} across{" "}
-        {countries.size} {countries.size === 1 ? "country" : "countries"}.
-      </p>
-      <div className="mt-12">
-        <ClipGrid clips={clips} />
+    <main className="pb-24">
+      <FilmHero clips={clips} />
+
+      {/* Rows ride up into the hero's fade so the two read as one surface. */}
+      <div className="relative z-10 -mt-10 space-y-10">
+        {groups.map((group) => (
+          <FilmRow key={group.code} title={group.name} clips={group.clips} />
+        ))}
       </div>
     </main>
   );
