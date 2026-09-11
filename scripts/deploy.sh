@@ -7,7 +7,13 @@
 set -euo pipefail
 
 STACK="${STACK:-TravelSiteStack}"
-export AWS_PROFILE="${AWS_PROFILE:-travel-site}"
+# Fall back to the local dev profile only when the environment has no
+# credentials of its own. CI authenticates by OIDC, which supplies credentials
+# as environment variables rather than a profile — forcing one there sends the
+# CLI looking for a config file the runner does not have.
+if [ -z "${AWS_ACCESS_KEY_ID:-}" ] && [ -z "${AWS_PROFILE:-}" ]; then
+  export AWS_PROFILE=travel-site
+fi
 export AWS_REGION="${AWS_REGION:-us-east-1}"
 
 # Point the build at the content API if it is deployed. Absent is fine — the
