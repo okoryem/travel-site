@@ -41,6 +41,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Test
+        run: npm test
+
       - name: Assume AWS role via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -77,4 +80,8 @@ jobs:
         working-directory: infra
       - name: Type check infrastructure
         run: npx tsc --noEmit
+        working-directory: infra
+
+      - name: Test infrastructure
+        run: npm test
         working-directory: infra

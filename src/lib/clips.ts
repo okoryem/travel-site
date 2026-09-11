@@ -170,7 +170,12 @@ export function countryName(code: string): string {
   const upper = code.toUpperCase();
   try {
     const name = new Intl.DisplayNames(["en"], { type: "region" }).of(upper);
-    if (name && name !== upper) return name;
+    /* Intl signals "no idea" two different ways: it echoes the input for some
+       unassigned codes, and returns the literal "Unknown Region" for others
+       (ZZ, the ISO code reserved for exactly that). Showing either to a reader
+       is worse than showing the code. Safe to match on the English string
+       because the locale is pinned above. */
+    if (name && name !== upper && name !== "Unknown Region") return name;
   } catch {
     // Intl.DisplayNames unavailable — fall through.
   }

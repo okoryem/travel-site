@@ -1,5 +1,6 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import { sql } from "./db";
+import { encodeCursor, decodeCursor, toClip } from "./shape";
 
 /**
  * Read-only content API.
@@ -31,22 +32,9 @@ const json = (
 const problem = (status: number, detail: string) =>
   json(status, { error: { status, detail } });
 
-/* Keyset pagination rather than OFFSET: the cursor carries the last row's sort
-   key, so page N costs the same as page 1 and rows can't be skipped or repeated
-   when the underlying data changes between requests. */
-const encodeCursor = (shotOn: string, id: string) =>
-  Buffer.from(`${shotOn}|${id}`).toString("base64url");
-
-const decodeCursor = (raw: string): { shotOn: string; id: string } | null => {
-  try {
-    const [shotOn, id] = Buffer.from(raw, "base64url").toString("utf8").split("|");
-    if (!shotOn || !id || !/^\d{4}-\d{2}-\d{2}$/.test(shotOn)) return null;
-    return { shotOn, id };
-  } catch {
-    return null;
-  }
-};
-
+/* The column list every clip query selects. Dates are formatted by Postgres:
+   a DATE has no time and no zone, so turning it into a JS Date invents both and
+   every conversion back is a chance to be off by a day. */
 const clipShape = `
   cl.id, cl.title, cl.duration_sec,
   to_char(cl.shot_on, 'YYYY-MM-DD') AS shot_on,
@@ -66,55 +54,6 @@ const clipShape = `
     ARRAY[]::text[]
   ) AS tags
 `;
-
-/** Flatten the row into the nested shape the site already understands. */
-const toClip = (r: Record<string, unknown>) => ({
-  id: r.id,
-  title: r.title,
-  location: {
-    name: r.location_name,
-    countryCode: r.country_code,
-    countryName: r.country_name,
-    lat: Number(r.lat),
-    lon: Number(r.lon),
-  },
-  shotOn: r.shot_on,
-  publishedAt: r.published_at,
-  durationSec: Number(r.duration_sec),
-  aspectRatio: r.aspect_ratio,
-  featured: r.featured,
-  ...(r.story ? { story: r.story } : {}),
-  sources: {
-    mp4: {
-      url: r.mp4_url,
-      width: r.mp4_width,
-      height: r.mp4_height,
-      bitrateKbps: r.mp4_bitrate_kbps,
-    },
-  },
-  poster: { url: r.poster_url, width: r.poster_width, height: r.poster_height },
-  /* Included so a round trip through the API is lossless. The site never uses
-     it, but add-clip writes it and Phase 2 render jobs need it to find the
-     original — dropping it here would quietly erase it from the manifest. */
-  ...(r.master_rel_path
-    ? {
-        master: {
-          relPath: r.master_rel_path,
-          ...(r.master_codec ? { codec: r.master_codec } : {}),
-        },
-      }
-    : {}),
-  ...(r.narration_url
-    ? {
-        audio: {
-          url: r.narration_url,
-          durationSec: Number(r.narration_duration_sec),
-          transcript: r.narration_transcript,
-        },
-      }
-    : {}),
-  tags: r.tags ?? [],
-});
 
 export const handler = async (
   event: APIGatewayProxyEventV2,
