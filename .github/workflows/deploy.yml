@@ -41,6 +41,19 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # TEMPORARY diagnostic. Prints only the token's claims, never the token
+      # itself — the claims are not secret, the signed token is a credential.
+      - name: Inspect OIDC claims
+        run: |
+          tok=$(curl -sH "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r .value)
+          payload=$(echo "$tok" | cut -d. -f2)
+          # JWT uses base64url without padding; restore it before decoding.
+          pad=$(( (4 - ${#payload} % 4) % 4 ))
+          payload="$payload$(printf '=%.0s' $(seq 1 $pad))"
+          echo "$payload" | tr '_-' '/+' | base64 -d 2>/dev/null \
+            | jq '{sub, aud, repository, ref, event_name, workflow_ref}'
+
       - name: Assume AWS role via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
