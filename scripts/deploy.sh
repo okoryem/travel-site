@@ -10,6 +10,19 @@ STACK="${STACK:-TravelSiteStack}"
 export AWS_PROFILE="${AWS_PROFILE:-travel-site}"
 export AWS_REGION="${AWS_REGION:-us-east-1}"
 
+# Point the build at the content API if it is deployed. Absent is fine — the
+# prebuild step falls back to the committed manifest, so a missing or broken API
+# cannot block a deploy of a site that is entirely static anyway.
+api=$(aws cloudformation describe-stacks --stack-name TravelSiteApiStack \
+  --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" \
+  --output text 2>/dev/null || true)
+if [ -n "$api" ] && [ "$api" != "None" ]; then
+  export CONTENT_API_URL="$api"
+  echo "→ Content API: $api"
+else
+  echo "→ Content API not deployed — building from committed manifest"
+fi
+
 echo "→ Building static export"
 npm run build
 

@@ -10,7 +10,8 @@
     "deploy": "bash scripts/deploy.sh",
     "migrate": "node --env-file=.env.local scripts/migrate.mjs",
     "migrate:status": "node --env-file=.env.local scripts/migrate.mjs --status",
-    "seed": "node --env-file=.env.local scripts/seed.mjs"
+    "seed": "node --env-file=.env.local scripts/seed.mjs",
+    "prebuild": "node scripts/fetch-content.mjs"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

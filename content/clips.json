@@ -1,618 +1,11 @@
 [
   {
-    "id": "grenada-waterfall",
-    "title": "Waterfall, Grenada",
-    "location": {
-      "name": "Grenada",
-      "countryCode": "GD",
-      "lat": 12.1165,
-      "lon": -61.679
-    },
-    "shotOn": "2026-09-10",
-    "publishedAt": "2026-09-10",
-    "durationSec": 14.97,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/grenada-waterfall/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8554
-      }
-    },
-    "poster": {
-      "url": "/media/grenada-waterfall/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/GrenadaWaterfall.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/grenada-waterfall/narration.m4a",
-      "durationSec": 11.91,
-      "transcript": "Waterfall, Grenada. Filmed in Grenada. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "cocora-jeep",
-    "title": "Jeep, Cocora Valley",
-    "location": {
-      "name": "Cocora Valley, Colombia",
-      "countryCode": "CO",
-      "lat": 4.6378,
-      "lon": -75.4875
-    },
-    "shotOn": "2026-09-10",
-    "publishedAt": "2026-09-10",
-    "durationSec": 23.98,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/cocora-jeep/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8461
-      }
-    },
-    "poster": {
-      "url": "/media/cocora-jeep/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/CocoraValleyJeep.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/cocora-jeep/narration.m4a",
-      "durationSec": 13.04,
-      "transcript": "Jeep, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "tayrona",
-    "title": "Tayrona",
-    "location": {
-      "name": "Tayrona, Colombia",
-      "countryCode": "CO",
-      "lat": 11.3116,
-      "lon": -74.0742
-    },
-    "shotOn": "2026-09-10",
-    "publishedAt": "2026-09-10",
-    "durationSec": 15.23,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/tayrona/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8525
-      }
-    },
-    "poster": {
-      "url": "/media/tayrona/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/Tayrona.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/tayrona/narration.m4a",
-      "durationSec": 11.8,
-      "transcript": "Tayrona. Filmed in Tayrona, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "medellin-paragliding",
-    "title": "Paragliding, Medellín",
-    "location": {
-      "name": "Medellín, Colombia",
-      "countryCode": "CO",
-      "lat": 6.2442,
-      "lon": -75.5812
-    },
-    "shotOn": "2026-09-10",
-    "publishedAt": "2026-09-10",
-    "durationSec": 23.96,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/medellin-paragliding/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8378
-      }
-    },
-    "poster": {
-      "url": "/media/medellin-paragliding/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/MedellinParagliding.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/medellin-paragliding/narration.m4a",
-      "durationSec": 13.05,
-      "transcript": "Paragliding, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "medellin-clasico",
-    "title": "Clásico, Medellín",
-    "location": {
-      "name": "Medellín, Colombia",
-      "countryCode": "CO",
-      "lat": 6.2442,
-      "lon": -75.5812
-    },
-    "shotOn": "2026-09-10",
-    "publishedAt": "2026-09-10",
-    "durationSec": 44.37,
-    "aspectRatio": "9:16",
-    "sources": {
-      "mp4": {
-        "url": "/media/medellin-clasico/clip.mp4",
-        "width": 1080,
-        "height": 1920,
-        "bitrateKbps": 8092
-      }
-    },
-    "poster": {
-      "url": "/media/medellin-clasico/poster.jpg",
-      "width": 1080,
-      "height": 1920
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/MedellinClasico.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/medellin-clasico/narration.m4a",
-      "durationSec": 12.98,
-      "transcript": "Clásico, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "cocora-horse",
-    "title": "Horseback, Cocora Valley",
-    "location": {
-      "name": "Cocora Valley, Colombia",
-      "countryCode": "CO",
-      "lat": 4.6378,
-      "lon": -75.4875
-    },
-    "shotOn": "2026-09-09",
-    "publishedAt": "2026-09-10",
-    "durationSec": 24.43,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/cocora-horse/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8412
-      }
-    },
-    "poster": {
-      "url": "/media/cocora-horse/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/CocoraValleyHorse.mp4",
-      "codec": "h264"
-    },
-    "audio": {
-      "url": "/media/cocora-horse/narration.m4a",
-      "durationSec": 13.36,
-      "transcript": "Horseback, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "arequipa",
-    "title": "Arequipa",
-    "location": {
-      "name": "Arequipa, Peru",
-      "countryCode": "PE",
-      "lat": -16.409,
-      "lon": -71.5375
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 12.09,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/arequipa/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 2607
-      }
-    },
-    "poster": {
-      "url": "/media/arequipa/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/ArequipaSaltLakes.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/arequipa/narration.m4a",
-      "durationSec": 12,
-      "transcript": "Arequipa. Filmed in Arequipa, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "nevado-mateo",
-    "title": "Nevado Mateo",
-    "location": {
-      "name": "Huaraz, Peru",
-      "countryCode": "PE",
-      "lat": -9.5278,
-      "lon": -77.5278
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 9.45,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/nevado-mateo/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 7032
-      }
-    },
-    "poster": {
-      "url": "/media/nevado-mateo/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/NevadoMateoHuaraz.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/nevado-mateo/narration.m4a",
-      "durationSec": 12.24,
-      "transcript": "Nevado Mateo. Filmed in Huaraz, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "banos",
-    "title": "Baños",
-    "location": {
-      "name": "Baños, Ecuador",
-      "countryCode": "EC",
-      "lat": -1.3967,
-      "lon": -78.4247
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 20.46,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/banos/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 7818
-      }
-    },
-    "poster": {
-      "url": "/media/banos/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/WaterfallBanos.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/banos/narration.m4a",
-      "durationSec": 11.7,
-      "transcript": "Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "banos-rafting",
-    "title": "Rafting, Baños",
-    "location": {
-      "name": "Baños, Ecuador",
-      "countryCode": "EC",
-      "lat": -1.3967,
-      "lon": -78.4247
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 35.92,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/banos-rafting/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8368
-      }
-    },
-    "poster": {
-      "url": "/media/banos-rafting/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/RaftingBanos.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/banos-rafting/narration.m4a",
-      "durationSec": 12.5,
-      "transcript": "Rafting, Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "cotopaxi",
-    "title": "Cotopaxi",
-    "location": {
-      "name": "Cotopaxi, Ecuador",
-      "countryCode": "EC",
-      "lat": -0.68,
-      "lon": -78.4378
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 25.6,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/cotopaxi/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8412
-      }
-    },
-    "poster": {
-      "url": "/media/cotopaxi/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/Cotopaxi.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/cotopaxi/narration.m4a",
-      "durationSec": 12.45,
-      "transcript": "Cotopaxi. Filmed in Cotopaxi, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "cuenca",
-    "title": "Cuenca",
-    "location": {
-      "name": "Cuenca, Ecuador",
-      "countryCode": "EC",
-      "lat": -2.9001,
-      "lon": -79.0059
-    },
-    "shotOn": "2026-09-08",
-    "publishedAt": "2026-09-08",
-    "durationSec": 35.73,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/cuenca/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 8353
-      }
-    },
-    "poster": {
-      "url": "/media/cuenca/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/Cuenca.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/cuenca/narration.m4a",
-      "durationSec": 11.7,
-      "transcript": "Cuenca. Filmed in Cuenca, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "paracas",
-    "title": "Paracas",
-    "location": {
-      "name": "Paracas, Peru",
-      "countryCode": "PE",
-      "lat": -13.8344,
-      "lon": -76.2497
-    },
-    "shotOn": "2026-09-07",
-    "publishedAt": "2026-09-08",
-    "durationSec": 34.07,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/paracas/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 3060
-      }
-    },
-    "poster": {
-      "url": "/media/paracas/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/ParacasDrive.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/paracas/narration.m4a",
-      "durationSec": 11.89,
-      "transcript": "Paracas. Filmed in Paracas, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "pululahua",
-    "title": "Pululahua",
-    "location": {
-      "name": "Pululahua, Ecuador",
-      "countryCode": "EC",
-      "lat": 0.035,
-      "lon": -78.498
-    },
-    "shotOn": "2026-09-07",
-    "publishedAt": "2026-09-08",
-    "durationSec": 5.95,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/pululahua/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 1980
-      }
-    },
-    "poster": {
-      "url": "/media/pululahua/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/Pululahua_Quito.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/pululahua/narration.m4a",
-      "durationSec": 12.26,
-      "transcript": "Pululahua. Filmed in Pululahua, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "huacachina",
-    "title": "Huacachina",
-    "location": {
-      "name": "Huacachina, Peru",
-      "countryCode": "PE",
-      "lat": -14.0875,
-      "lon": -75.7625
-    },
-    "shotOn": "2026-07-21",
-    "publishedAt": "2026-09-08",
-    "durationSec": 48.36,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/huacachina/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 2292
-      }
-    },
-    "poster": {
-      "url": "/media/huacachina/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/huaca2.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/huacachina/narration.m4a",
-      "durationSec": 12.12,
-      "transcript": "Huacachina. Filmed in Huacachina, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
-    "id": "salkantay",
-    "title": "Salkantay",
-    "location": {
-      "name": "Salkantay, Peru",
-      "countryCode": "PE",
-      "lat": -13.3833,
-      "lon": -72.5667
-    },
-    "shotOn": "2026-07-10",
-    "publishedAt": "2026-09-08",
-    "durationSec": 87.74,
-    "aspectRatio": "16:9",
-    "sources": {
-      "mp4": {
-        "url": "/media/salkantay/clip.mp4",
-        "width": 1920,
-        "height": 1080,
-        "bitrateKbps": 5002
-      }
-    },
-    "poster": {
-      "url": "/media/salkantay/poster.jpg",
-      "width": 1920,
-      "height": 1080
-    },
-    "tags": [],
-    "featured": false,
-    "master": {
-      "relPath": "website/Salkantay_Final1.mp4",
-      "codec": "hevc"
-    },
-    "audio": {
-      "url": "/media/salkantay/narration.m4a",
-      "durationSec": 12.09,
-      "transcript": "Salkantay. Filmed in Salkantay, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
-  },
-  {
     "id": "acatenango",
     "title": "Acatenango",
     "location": {
       "name": "Acatenango, Guatemala",
       "countryCode": "GT",
+      "countryName": "Guatemala",
       "lat": 14.5008,
       "lon": -90.8761
     },
@@ -620,6 +13,7 @@
     "publishedAt": "2026-09-08",
     "durationSec": 27.11,
     "aspectRatio": "16:9",
+    "featured": false,
     "sources": {
       "mp4": {
         "url": "/media/acatenango/clip.mp4",
@@ -633,8 +27,6 @@
       "width": 1920,
       "height": 1080
     },
-    "tags": [],
-    "featured": false,
     "master": {
       "relPath": "website/NewAca.MP4",
       "codec": "hevc"
@@ -643,6 +35,631 @@
       "url": "/media/acatenango/narration.m4a",
       "durationSec": 12.56,
       "transcript": "Acatenango. Filmed in Acatenango, Guatemala. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
-    }
+    },
+    "tags": []
+  },
+  {
+    "id": "arequipa",
+    "title": "Arequipa",
+    "location": {
+      "name": "Arequipa, Peru",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "lat": -16.409,
+      "lon": -71.5375
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 12.09,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/arequipa/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 2607
+      }
+    },
+    "poster": {
+      "url": "/media/arequipa/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/ArequipaSaltLakes.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/arequipa/narration.m4a",
+      "durationSec": 12,
+      "transcript": "Arequipa. Filmed in Arequipa, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "banos",
+    "title": "Baños",
+    "location": {
+      "name": "Baños, Ecuador",
+      "countryCode": "EC",
+      "countryName": "Ecuador",
+      "lat": -1.3967,
+      "lon": -78.4247
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 20.46,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/banos/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 7818
+      }
+    },
+    "poster": {
+      "url": "/media/banos/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/WaterfallBanos.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/banos/narration.m4a",
+      "durationSec": 11.7,
+      "transcript": "Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "banos-rafting",
+    "title": "Rafting, Baños",
+    "location": {
+      "name": "Baños, Ecuador",
+      "countryCode": "EC",
+      "countryName": "Ecuador",
+      "lat": -1.3967,
+      "lon": -78.4247
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 35.92,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/banos-rafting/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8368
+      }
+    },
+    "poster": {
+      "url": "/media/banos-rafting/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/RaftingBanos.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/banos-rafting/narration.m4a",
+      "durationSec": 12.5,
+      "transcript": "Rafting, Baños. Filmed in Baños, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "cocora-horse",
+    "title": "Horseback, Cocora Valley",
+    "location": {
+      "name": "Cocora Valley, Colombia",
+      "countryCode": "CO",
+      "countryName": "Colombia",
+      "lat": 4.6378,
+      "lon": -75.4875
+    },
+    "shotOn": "2026-09-09",
+    "publishedAt": "2026-09-10",
+    "durationSec": 24.43,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/cocora-horse/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8412
+      }
+    },
+    "poster": {
+      "url": "/media/cocora-horse/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/CocoraValleyHorse.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/cocora-horse/narration.m4a",
+      "durationSec": 13.36,
+      "transcript": "Horseback, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "cocora-jeep",
+    "title": "Jeep, Cocora Valley",
+    "location": {
+      "name": "Cocora Valley, Colombia",
+      "countryCode": "CO",
+      "countryName": "Colombia",
+      "lat": 4.6378,
+      "lon": -75.4875
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 23.98,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/cocora-jeep/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8461
+      }
+    },
+    "poster": {
+      "url": "/media/cocora-jeep/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/CocoraValleyJeep.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/cocora-jeep/narration.m4a",
+      "durationSec": 13.04,
+      "transcript": "Jeep, Cocora Valley. Filmed in Cocora Valley, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "cotopaxi",
+    "title": "Cotopaxi",
+    "location": {
+      "name": "Cotopaxi, Ecuador",
+      "countryCode": "EC",
+      "countryName": "Ecuador",
+      "lat": -0.68,
+      "lon": -78.4378
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 25.6,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/cotopaxi/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8412
+      }
+    },
+    "poster": {
+      "url": "/media/cotopaxi/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/Cotopaxi.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/cotopaxi/narration.m4a",
+      "durationSec": 12.45,
+      "transcript": "Cotopaxi. Filmed in Cotopaxi, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "cuenca",
+    "title": "Cuenca",
+    "location": {
+      "name": "Cuenca, Ecuador",
+      "countryCode": "EC",
+      "countryName": "Ecuador",
+      "lat": -2.9001,
+      "lon": -79.0059
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 35.73,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/cuenca/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8353
+      }
+    },
+    "poster": {
+      "url": "/media/cuenca/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/Cuenca.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/cuenca/narration.m4a",
+      "durationSec": 11.7,
+      "transcript": "Cuenca. Filmed in Cuenca, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "grenada-waterfall",
+    "title": "Waterfall, Grenada",
+    "location": {
+      "name": "Grenada",
+      "countryCode": "GD",
+      "countryName": "Grenada",
+      "lat": 12.1165,
+      "lon": -61.679
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 14.97,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/grenada-waterfall/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8554
+      }
+    },
+    "poster": {
+      "url": "/media/grenada-waterfall/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/GrenadaWaterfall.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/grenada-waterfall/narration.m4a",
+      "durationSec": 11.91,
+      "transcript": "Waterfall, Grenada. Filmed in Grenada. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "huacachina",
+    "title": "Huacachina",
+    "location": {
+      "name": "Huacachina, Peru",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "lat": -14.0875,
+      "lon": -75.7625
+    },
+    "shotOn": "2026-07-21",
+    "publishedAt": "2026-09-08",
+    "durationSec": 48.36,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/huacachina/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 2292
+      }
+    },
+    "poster": {
+      "url": "/media/huacachina/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/huaca2.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/huacachina/narration.m4a",
+      "durationSec": 12.12,
+      "transcript": "Huacachina. Filmed in Huacachina, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "medellin-clasico",
+    "title": "Clásico, Medellín",
+    "location": {
+      "name": "Medellín, Colombia",
+      "countryCode": "CO",
+      "countryName": "Colombia",
+      "lat": 6.2442,
+      "lon": -75.5812
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 44.37,
+    "aspectRatio": "9:16",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/medellin-clasico/clip.mp4",
+        "width": 1080,
+        "height": 1920,
+        "bitrateKbps": 8092
+      }
+    },
+    "poster": {
+      "url": "/media/medellin-clasico/poster.jpg",
+      "width": 1080,
+      "height": 1920
+    },
+    "master": {
+      "relPath": "website/MedellinClasico.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/medellin-clasico/narration.m4a",
+      "durationSec": 12.98,
+      "transcript": "Clásico, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "medellin-paragliding",
+    "title": "Paragliding, Medellín",
+    "location": {
+      "name": "Medellín, Colombia",
+      "countryCode": "CO",
+      "countryName": "Colombia",
+      "lat": 6.2442,
+      "lon": -75.5812
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 23.96,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/medellin-paragliding/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8378
+      }
+    },
+    "poster": {
+      "url": "/media/medellin-paragliding/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/MedellinParagliding.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/medellin-paragliding/narration.m4a",
+      "durationSec": 13.05,
+      "transcript": "Paragliding, Medellín. Filmed in Medellín, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "nevado-mateo",
+    "title": "Nevado Mateo",
+    "location": {
+      "name": "Huaraz, Peru",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "lat": -9.5278,
+      "lon": -77.5278
+    },
+    "shotOn": "2026-09-08",
+    "publishedAt": "2026-09-08",
+    "durationSec": 9.45,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/nevado-mateo/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 7032
+      }
+    },
+    "poster": {
+      "url": "/media/nevado-mateo/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/NevadoMateoHuaraz.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/nevado-mateo/narration.m4a",
+      "durationSec": 12.24,
+      "transcript": "Nevado Mateo. Filmed in Huaraz, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "paracas",
+    "title": "Paracas",
+    "location": {
+      "name": "Paracas, Peru",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "lat": -13.8344,
+      "lon": -76.2497
+    },
+    "shotOn": "2026-09-07",
+    "publishedAt": "2026-09-08",
+    "durationSec": 34.07,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/paracas/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 3060
+      }
+    },
+    "poster": {
+      "url": "/media/paracas/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/ParacasDrive.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/paracas/narration.m4a",
+      "durationSec": 11.89,
+      "transcript": "Paracas. Filmed in Paracas, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "pululahua",
+    "title": "Pululahua",
+    "location": {
+      "name": "Pululahua, Ecuador",
+      "countryCode": "EC",
+      "countryName": "Ecuador",
+      "lat": 0.035,
+      "lon": -78.498
+    },
+    "shotOn": "2026-09-07",
+    "publishedAt": "2026-09-08",
+    "durationSec": 5.95,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/pululahua/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 1980
+      }
+    },
+    "poster": {
+      "url": "/media/pululahua/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/Pululahua_Quito.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/pululahua/narration.m4a",
+      "durationSec": 12.26,
+      "transcript": "Pululahua. Filmed in Pululahua, Ecuador. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "salkantay",
+    "title": "Salkantay",
+    "location": {
+      "name": "Salkantay, Peru",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "lat": -13.3833,
+      "lon": -72.5667
+    },
+    "shotOn": "2026-07-10",
+    "publishedAt": "2026-09-08",
+    "durationSec": 87.74,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/salkantay/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 5002
+      }
+    },
+    "poster": {
+      "url": "/media/salkantay/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/Salkantay_Final1.mp4",
+      "codec": "hevc"
+    },
+    "audio": {
+      "url": "/media/salkantay/narration.m4a",
+      "durationSec": 12.09,
+      "transcript": "Salkantay. Filmed in Salkantay, Peru. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
+  },
+  {
+    "id": "tayrona",
+    "title": "Tayrona",
+    "location": {
+      "name": "Tayrona, Colombia",
+      "countryCode": "CO",
+      "countryName": "Colombia",
+      "lat": 11.3116,
+      "lon": -74.0742
+    },
+    "shotOn": "2026-09-10",
+    "publishedAt": "2026-09-10",
+    "durationSec": 15.23,
+    "aspectRatio": "16:9",
+    "featured": false,
+    "sources": {
+      "mp4": {
+        "url": "/media/tayrona/clip.mp4",
+        "width": 1920,
+        "height": 1080,
+        "bitrateKbps": 8525
+      }
+    },
+    "poster": {
+      "url": "/media/tayrona/poster.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    "master": {
+      "relPath": "website/Tayrona.mp4",
+      "codec": "h264"
+    },
+    "audio": {
+      "url": "/media/tayrona/narration.m4a",
+      "durationSec": 11.8,
+      "transcript": "Tayrona. Filmed in Tayrona, Colombia. This is placeholder narration. Real commentary for this film hasn't been recorded yet, so this track stands in while the audio and transcript features are built."
+    },
+    "tags": []
   }
 ]

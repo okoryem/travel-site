@@ -3,6 +3,27 @@ import { Construct } from "constructs";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
+import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
+import * as actions from "aws-cdk-lib/aws-cloudwatch-actions";
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as subs from "aws-cdk-lib/aws-sns-subscriptions";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import * as logs from "aws-cdk-lib/aws-logs";
+import * as iam from "aws-cdk-lib/aws-iam";
+import { join } from "node:path";
+
+/* Egress thresholds, in GB per hour.
+ *
+ * CloudFront's free tier is 1TB/month — about 1.4 GB/hour if spread evenly, and
+ * normal traffic here is far below that. WARN is set where something unusual is
+ * clearly happening; KILL where sustained traffic would cost real money.
+ *
+ * KILL requires two consecutive breaching hours on purpose: a single spike from
+ * being linked somewhere is not worth taking the site down for. */
+const WARN_GB_PER_HOUR = 5;   // ~3.6 TB/month sustained (~$220)
+const KILL_GB_PER_HOUR = 25;  // ~18 TB/month sustained (~$1,500)
+const GB = 1024 ** 3;
 
 /**
  * Static travel site: two private S3 buckets behind one CloudFront
@@ -97,6 +118,97 @@ function handler(event) {
         { httpStatus: 404, responseHttpStatus: 404, responsePagePath: "/404.html" },
       ],
     });
+
+    // ---- Cost guard --------------------------------------------------------
+    /* AWS has no hard spending cap, and Budgets alert on billing data that lags
+       by hours. CloudFront publishes usage metrics within minutes, so alarming
+       on bytes rather than dollars is both faster and actionable. */
+
+    const alerts = new sns.Topic(this, "CostAlerts", {
+      displayName: "travel-site cost alerts",
+    });
+
+    /* Email comes from CDK context rather than source, so a personal address
+       never lands in a public repo:
+         npx cdk deploy -c alertEmail=you@example.com */
+    const alertEmail = this.node.tryGetContext("alertEmail");
+    if (alertEmail) {
+      alerts.addSubscription(new subs.EmailSubscription(alertEmail));
+    }
+
+    const egressPerHour = new cloudwatch.Metric({
+      namespace: "AWS/CloudFront",
+      metricName: "BytesDownloaded",
+      // CloudFront reports globally and only into us-east-1.
+      dimensionsMap: { DistributionId: distribution.distributionId, Region: "Global" },
+      statistic: "Sum",
+      period: cdk.Duration.hours(1),
+    });
+
+    // Warning: notify only. Something is happening, look at it.
+    egressPerHour
+      .createAlarm(this, "EgressWarning", {
+        alarmName: "travel-site-egress-warning",
+        alarmDescription: `CloudFront served more than ${WARN_GB_PER_HOUR}GB in an hour.`,
+        threshold: WARN_GB_PER_HOUR * GB,
+        evaluationPeriods: 1,
+        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+        // No traffic reports no datapoints; that is not a breach.
+        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      })
+      .addAlarmAction(new actions.SnsAction(alerts));
+
+    // Kill: disable the distribution. Two hours sustained, not one spike.
+    const killTopic = new sns.Topic(this, "EgressKillTopic", {
+      displayName: "travel-site egress kill switch",
+    });
+
+    const killSwitch = new NodejsFunction(this, "EgressKillSwitch", {
+      entry: join(__dirname, "../lambda/killswitch/index.ts"),
+      handler: "handler",
+      runtime: lambda.Runtime.NODEJS_22_X,
+      architecture: lambda.Architecture.ARM_64,
+      timeout: cdk.Duration.seconds(30),
+      environment: {
+        DISTRIBUTION_ID: distribution.distributionId,
+        NOTIFY_TOPIC_ARN: alerts.topicArn,
+      },
+      bundling: { minify: true, externalModules: ["@aws-sdk/*"] },
+      logGroup: new logs.LogGroup(this, "EgressKillSwitchLogs", {
+        retention: logs.RetentionDays.ONE_MONTH,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      }),
+    });
+
+    /* CloudFront is a global service, so its ARNs are not region-scoped and
+       cannot be narrowed to this distribution in the resource field. Scoped as
+       tightly as the service allows. */
+    killSwitch.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ["cloudfront:GetDistributionConfig", "cloudfront:UpdateDistribution"],
+        resources: [
+          `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`,
+        ],
+      }),
+    );
+    alerts.grantPublish(killSwitch);
+    killTopic.addSubscription(new subs.LambdaSubscription(killSwitch));
+
+    egressPerHour
+      .createAlarm(this, "EgressKill", {
+        alarmName: "travel-site-egress-kill",
+        alarmDescription:
+          `CloudFront served more than ${KILL_GB_PER_HOUR}GB/hour for two hours. ` +
+          `Distribution will be disabled.`,
+        threshold: KILL_GB_PER_HOUR * GB,
+        evaluationPeriods: 2,
+        datapointsToAlarm: 2,
+        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      })
+      .addAlarmAction(new actions.SnsAction(killTopic));
+
+    new cdk.CfnOutput(this, "CostAlertsTopic", { value: alerts.topicArn });
 
     // ---- Outputs -----------------------------------------------------------
 
