@@ -119,6 +119,62 @@ function handler(event) {
       ],
     });
 
+    // ---- CI deploy role ----------------------------------------------------
+    /* GitHub Actions authenticates by OIDC rather than a stored access key.
+       GitHub presents a signed token asserting which repo and ref is running;
+       AWS trusts that and issues credentials for the life of the job. There is
+       no secret to leak, which is the same principle as the SSO login used
+       locally — applied to the last place still doing it by hand. */
+
+    const githubRepo = this.node.tryGetContext("githubRepo") ?? "okoryem/travel-site";
+
+    const githubOidc = new iam.OpenIdConnectProvider(this, "GitHubOidc", {
+      url: "https://token.actions.githubusercontent.com",
+      clientIds: ["sts.amazonaws.com"],
+    });
+
+    const deployRole = new iam.Role(this, "GitHubDeployRole", {
+      roleName: "travel-site-github-deploy",
+      description: "Assumed by GitHub Actions to deploy the static site",
+      maxSessionDuration: cdk.Duration.hours(1),
+      assumedBy: new iam.WebIdentityPrincipal(
+        githubOidc.openIdConnectProviderArn,
+        {
+          StringEquals: {
+            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+            /* Scoped to one branch of one repository. A fork, a pull request
+               from a fork, or any other repo cannot assume this role even
+               though they all present tokens from the same issuer. */
+            "token.actions.githubusercontent.com:sub": `repo:${githubRepo}:ref:refs/heads/main`,
+          },
+        },
+      ),
+    });
+
+    // Exactly what `npm run deploy` needs, and nothing else.
+    siteBucket.grantReadWrite(deployRole);
+    siteBucket.grantDelete(deployRole); // `s3 sync --delete` prunes removed files
+    deployRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["cloudfront:CreateInvalidation"],
+        resources: [
+          `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`,
+        ],
+      }),
+    );
+    deployRole.addToPolicy(
+      new iam.PolicyStatement({
+        // deploy.sh reads bucket, distribution and API URL from stack outputs.
+        actions: ["cloudformation:DescribeStacks"],
+        resources: [
+          `arn:aws:cloudformation:${this.region}:${this.account}:stack/TravelSiteStack/*`,
+          `arn:aws:cloudformation:${this.region}:${this.account}:stack/TravelSiteApiStack/*`,
+        ],
+      }),
+    );
+
+    new cdk.CfnOutput(this, "GitHubDeployRoleArn", { value: deployRole.roleArn });
+
     // ---- Cost guard --------------------------------------------------------
     /* AWS has no hard spending cap, and Budgets alert on billing data that lags
        by hours. CloudFront publishes usage metrics within minutes, so alarming
