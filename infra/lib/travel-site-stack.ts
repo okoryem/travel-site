@@ -127,6 +127,10 @@ function handler(event) {
        locally — applied to the last place still doing it by hand. */
 
     const githubRepo = this.node.tryGetContext("githubRepo") ?? "okoryem/travel-site";
+    // owner@ownerId/repo@repoId — read from an actual token's `sub` claim.
+    const githubRepoIds =
+      this.node.tryGetContext("githubRepoIds") ??
+      "okoryem@157544408/travel-site@1360317497";
 
     const githubOidc = new iam.OpenIdConnectProvider(this, "GitHubOidc", {
       url: "https://token.actions.githubusercontent.com",
@@ -144,8 +148,20 @@ function handler(event) {
             "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
             /* Scoped to one branch of one repository. A fork, a pull request
                from a fork, or any other repo cannot assume this role even
-               though they all present tokens from the same issuer. */
-            "token.actions.githubusercontent.com:sub": `repo:${githubRepo}:ref:refs/heads/main`,
+               though they all present tokens from the same issuer.
+
+               Two accepted forms. GitHub's documentation shows
+               `repo:owner/name:ref:...`, but it actually sends immutable
+               numeric ids — `repo:owner@ownerId/name@repoId:ref:...` — which
+               exists so that renaming or deleting a repository cannot let
+               another account claim the name and inherit this trust. Matching
+               only the documented form fails with a bare "Not authorized",
+               which says nothing about why. Both are listed so the role keeps
+               working whichever form is presented. */
+            "token.actions.githubusercontent.com:sub": [
+              `repo:${githubRepo}:ref:refs/heads/main`,
+              `repo:${githubRepoIds}:ref:refs/heads/main`,
+            ],
           },
         },
       ),
