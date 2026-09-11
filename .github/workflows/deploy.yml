@@ -34,12 +34,12 @@ jobs:
       # package.json and the lockfile disagree.
       - run: npm ci
 
-      # Gates. deploy.sh doesn't run these, so today a lint error ships.
+      # deploy.sh doesn't lint, so without this a lint error ships. Type
+      # checking is not a separate step: `next build` does it, and it has to,
+      # because PageProps and LayoutProps are generated into .next/types during
+      # the build. A standalone tsc run before it cannot see them.
       - name: Lint
         run: npm run lint
-
-      - name: Type check
-        run: npx tsc --noEmit
 
       - name: Assume AWS role via OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -61,3 +61,20 @@ jobs:
             echo "  $path -> $code"
             [ "$code" = "200" ] || { echo "::error::$path returned $code"; exit 1; }
           done
+
+  # Separate job: infra has its own package.json and node_modules, so it needs
+  # its own install. Catches CDK type errors on push rather than at deploy time.
+  infra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - run: npm ci
+        working-directory: infra
+      - name: Type check infrastructure
+        run: npx tsc --noEmit
+        working-directory: infra
